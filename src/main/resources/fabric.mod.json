@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "byte-utility-mod",
+	"version": "${version}",
+	"name": "Byte Utility Mod",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/byte-utility-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"me.danny125.byteutilitymod.ByteUtilityMod"
+		],
+		"client": [
+			"me.danny125.byteutilitymod.ByteUtilityModClient"
+		],
+		"fabric-datagen": [
+			"me.danny125.byteutilitymod.ByteUtilityModDataGenerator"
+		]
+	},
+	"mixins": [
+		"byte-utility-mod.mixins.json",
+		{
+			"config": "byte-utility-mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
