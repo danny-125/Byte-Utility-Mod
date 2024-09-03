@@ -3,7 +3,8 @@
 	"package": "me.danny125.byteutilitymod.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"TickMixin",
+		"ChatMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

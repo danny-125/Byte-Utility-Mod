@@ -5,20 +5,25 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import me.danny125.byteutilitymod.Initialize;
+
 public class ByteUtilityMod implements ModInitializer {
 	public static final String MOD_ID = "byte-utility-mod";
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	//create instance so that you can reference things in this class
+	public static ByteUtilityMod INSTANCE = new ByteUtilityMod();
+
+	public static String MOD_VERSION = "0.1";
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
-		LOGGER.info("Hello Fabric world!");
+		boolean init = Initialize.InitializeMod();
+		if(init){
+			LOGGER.info("Successfully loaded Byte Utility Mod!");
+		}else{
+			LOGGER.error("Failed to load Byte Utility Mod...");
+		}
 	}
 }
