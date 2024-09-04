@@ -19,6 +19,18 @@ public class Module {
         this.name = MODULE_NAME;
     }
 
+    public int getKey(){
+        return this.key;
+    }
+
+    public void toggle(){
+        this.toggled = !this.toggled;
+    }
+
+    public boolean isToggled(){
+        return this.toggled;
+    }
+
     public void onEnable(){
 
     }

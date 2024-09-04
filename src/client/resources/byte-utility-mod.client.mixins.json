@@ -3,7 +3,9 @@
 	"package": "me.danny125.byteutilitymod.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"ExampleClientMixin",
+		"KeyboardMixin",
+		"TickMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
