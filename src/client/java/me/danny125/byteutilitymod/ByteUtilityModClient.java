@@ -12,7 +12,6 @@ public class ByteUtilityModClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		LOGGER.info("hello world");
 		Initialize.InitializeMod();
 	}
 }

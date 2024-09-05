@@ -1,7 +1,11 @@
 package me.danny125.byteutilitymod;
 
 import me.danny125.byteutilitymod.modules.Module;
+import me.danny125.byteutilitymod.modules.hud.HUD;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,19 +25,36 @@ public class Initialize {
             //add modules to module list
             //modules.add(new ExampleModule());
             modules.add(new Fullbright());
+            modules.add(new HUD());
+
+            //Enable modules that have ENABLE_ON_START set to true
+            enableStartupModules();
+
+            //Add config stuff here
+
         }catch (Exception e){
             ByteUtilityMod.LOGGER.error("Error whilst initializing: " + e.getMessage());
             return false;
         }
         return true;
     }
-
-    public static void onTick(){
+    public static void enableStartupModules(){
         for(Module module : modules){
-            module.onTick();
+            if(module.shouldEnableOnStart()){
+                module.toggle();
+            }
         }
     }
-
+    public static void onTick(CallbackInfo info){
+        for(Module module : modules){
+            module.onTick(info);
+        }
+    }
+    public static void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info){
+        for(Module module : modules){
+            module.onRender(drawContext, renderTickCounter, info);
+        }
+    }
     public static void keyPress(int key){
         for(Module module : modules){
             int MODULE_KEY = module.getKey();
