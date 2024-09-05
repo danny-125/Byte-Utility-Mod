@@ -1,10 +1,13 @@
 package me.danny125.byteutilitymod.modules.hud;
 
+import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.modules.Module;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Comparator;
 
 public class HUD extends Module{
     public HUD(){
@@ -17,21 +20,29 @@ public class HUD extends Module{
         if(this.toggled){
             MinecraftClient client = MinecraftClient.getInstance();
 
-            String text = "Byte Utility Mod";
-            int scale = 2;
-
-            int textWidth = client.textRenderer.getWidth(text) * scale;
-
-            int screenWidth = drawContext.getScaledWindowWidth();
-            int screenHeight = drawContext.getScaledWindowHeight();
-
-            int x = screenWidth - textWidth - 10;
+            int x = 10;
             int y = 10;
 
-            drawContext.getMatrices().push();
-            drawContext.getMatrices().scale(scale, scale, 1);
-            drawContext.drawText(client.textRenderer, text, x / scale, y / scale, 0xFFFFFF, true);
-            drawContext.getMatrices().pop();
+            int MODULE_COUNT = 0;
+
+            Initialize.modules.sort(Comparator.comparingInt(m -> client.textRenderer.getWidth(((Module)m).getName())).reversed());
+
+            for(Module m : Initialize.INSTANCE.modules){
+                if(m.isToggled()){
+                    String text = m.getName();
+
+                    int textWidth = client.textRenderer.getWidth(text);
+                    int textHeight = client.textRenderer.fontHeight;
+                    int screenWidth = drawContext.getScaledWindowWidth();
+                    int screenHeight = drawContext.getScaledWindowHeight();
+
+                    drawContext.getMatrices().push();
+                    //drawContext.getMatrices().scale(1, 1, 1);
+                    drawContext.drawText(client.textRenderer, text, x, y+(MODULE_COUNT*textHeight+1), 0xFFFFFF, true);
+                    drawContext.getMatrices().pop();
+                    MODULE_COUNT++;
+                }
+            }
         }
     }
 }

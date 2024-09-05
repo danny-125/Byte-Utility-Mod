@@ -50,6 +50,10 @@ public class Module {
 
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public void onTick(CallbackInfo info){
 
     }
