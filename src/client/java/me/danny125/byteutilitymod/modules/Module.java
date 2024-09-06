@@ -15,6 +15,7 @@ public class Module {
         RENDER,
         MOVEMENT,
         COMBAT,
+        PLAYER,
         HUD,
         MISCELLANEOUS
     }

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class Fullbright extends Module{
     public Fullbright() {
-        super("Fullbright", GLFW.GLFW_KEY_G,CATEGORY.RENDER,false);
+        super("Fullbright", GLFW.GLFW_KEY_H,CATEGORY.RENDER,false);
     }
 
     private static boolean nightVisionEnabled = false;

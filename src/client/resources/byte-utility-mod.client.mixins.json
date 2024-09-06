@@ -6,7 +6,9 @@
 		"ExampleClientMixin",
 		"KeyboardMixin",
 		"TickMixin",
-		"InGameHudMixin"
+		"InGameHudMixin",
+		"PlayerEntityMixin",
+		"IdentifierAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1
