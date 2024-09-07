@@ -1,6 +1,8 @@
 package me.danny125.byteutilitymod.mixin.client;
 
+import me.danny125.byteutilitymod.ByteUtilityModClient;
 import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.settings.NumberSetting;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +15,9 @@ public class PlayerEntityMixin {
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     private void disableFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if(Initialize.INSTANCE.isModuleToggled("NoFall")) {
-            cir.setReturnValue(false);
+            if(Initialize.INSTANCE.getModuleMode("NoFall").equals("Singleplayer")){
+                cir.setReturnValue(false);
+            }
         }
     }
 }

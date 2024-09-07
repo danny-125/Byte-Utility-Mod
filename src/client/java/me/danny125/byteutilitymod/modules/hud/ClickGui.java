@@ -8,11 +8,10 @@ import me.danny125.byteutilitymod.modules.Module;
 public class ClickGui extends Module {
 
     public ClickGui() {
-        super("ClickGui", "Gui to enable or disable modules", GLFW.GLFW_KEY_RIGHT_SHIFT, Category.RENDER,false);
+        super("ClickGui", GLFW.GLFW_KEY_RIGHT_SHIFT, CATEGORY.RENDER,false);
     }
     public void onEnable() {
-        MinecraftClient.getInstance().displayGuiScreen(new GUIMethod());
-        toggle();
+
     }
 }
 

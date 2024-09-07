@@ -8,7 +8,8 @@
 		"TickMixin",
 		"InGameHudMixin",
 		"PlayerEntityMixin",
-		"IdentifierAccessor"
+		"IdentifierAccessor",
+		"GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

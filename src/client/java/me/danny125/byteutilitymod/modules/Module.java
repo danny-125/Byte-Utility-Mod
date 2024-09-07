@@ -4,6 +4,7 @@ import me.danny125.byteutilitymod.settings.KeyBindSetting;
 import me.danny125.byteutilitymod.settings.Setting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -54,6 +55,14 @@ public class Module {
         }
         return s;
     }
+    public Setting getSettingByName(String settingName){
+        for(Setting s1 : settings){
+            if(s1.name.equals(settingName)){
+                return s1;
+            }
+        }
+        return null;
+    }
 
     public int getKey(){
         return keyCode.code;
@@ -87,6 +96,9 @@ public class Module {
 
     }
     public void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info){
+
+    }
+    public void onGameRender(CallbackInfo info){
 
     }
 }

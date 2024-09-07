@@ -12,6 +12,9 @@ public class ByteUtilityModClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		Initialize.InitializeMod();
+		boolean loadedSuccessfully = Initialize.InitializeMod();
+		if(!loadedSuccessfully) {
+			LOGGER.info("Byte Utility Mod loaded successfully");
+		}
 	}
 }

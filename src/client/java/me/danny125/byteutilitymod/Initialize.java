@@ -1,10 +1,14 @@
 package me.danny125.byteutilitymod;
 
 import me.danny125.byteutilitymod.modules.Module;
+import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.HUD;
+import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
+import me.danny125.byteutilitymod.settings.ModeSetting;
+import me.danny125.byteutilitymod.settings.Setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -19,19 +23,24 @@ public class Initialize {
 
     public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
 
+    //communicate with the GameRendererMixin for the LSD module
+    public static boolean loadPostProcessor = false;
+
     // very sigma function that initializes the utility mod :)
     public static boolean InitializeMod(){
         try{
+            ByteUtilityMod.LOGGER.info("Starting Byte Utility Mod v" + MOD_VERSION);
+
             //add modules to module list
             //modules.add(new ExampleModule());
-
             modules.add(new Fullbright());
             modules.add(new HUD());
             modules.add(new Flight());
             modules.add(new NoFall());
+            modules.add(new KillAura());
+            modules.add(new LSD());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
-
             //Add config stuff here
 
         }catch (Exception e){
@@ -63,6 +72,11 @@ public class Initialize {
             module.onRender(drawContext, renderTickCounter, info);
         }
     }
+    public static void onGameRender(CallbackInfo info){
+        for(Module module : modules){
+            module.onGameRender(info);
+        }
+    }
     public static void keyPress(int key){
         for(Module module : modules){
             int MODULE_KEY = module.getKey();
@@ -76,6 +90,14 @@ public class Initialize {
             }
         }
     }
+    public Module getModuleByName(String moduleName){
+        for(Module module : modules){
+            if(module.getName().equals(moduleName)){
+                return module;
+            }
+        }
+        return null;
+    }
     public boolean isModuleToggled(String moduleName) {
         for (Module module : modules) {
             if (module.getName().equals(moduleName)) {
@@ -83,5 +105,18 @@ public class Initialize {
             }
         }
         return false;
+    }
+    public String getModuleMode(String moduleName){
+        String mode = "";
+        for(Module module : modules){
+            if(module.getName().equals(moduleName)){
+                for(Setting s : module.settings){
+                    if(s.name.equals("Mode")){
+                        mode = ((ModeSetting)s).getMode();
+                    }
+                }
+            }
+        }
+        return mode;
     }
 }
