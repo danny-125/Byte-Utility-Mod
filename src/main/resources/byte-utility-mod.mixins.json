@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "me.danny125.byteutilitymod.mixin",
+	"package": "me.danny125.byteutilitymod.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 	],

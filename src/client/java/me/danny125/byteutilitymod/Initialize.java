@@ -2,6 +2,7 @@ package me.danny125.byteutilitymod;
 
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
+import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
 import me.danny125.byteutilitymod.modules.hud.HUD;
 import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.movement.Flight;
@@ -39,6 +40,7 @@ public class Initialize {
             modules.add(new NoFall());
             modules.add(new KillAura());
             modules.add(new LSD());
+            modules.add(new ClickGuiModule());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //Add config stuff here
