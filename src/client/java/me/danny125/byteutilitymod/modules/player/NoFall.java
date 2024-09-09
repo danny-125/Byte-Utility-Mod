@@ -16,7 +16,7 @@ public class NoFall extends Module{
     public ModeSetting mode = new ModeSetting("Mode","GroundSpoof","GroundSpoof","Singleplayer");
 
     public NoFall(){
-        super("NoFall", GLFW.GLFW_KEY_U,CATEGORY.PLAYER,true);
+        super("NoFall", 0,CATEGORY.PLAYER,false);
         this.addSettings(mode);
     }
 

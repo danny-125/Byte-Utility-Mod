@@ -15,8 +15,8 @@ import java.util.List;
 
 public class KillAura extends Module {
 
-    public NumberSetting cooldown = new NumberSetting("Cooldown",0.625,0.100,2.0,0.001);
-    public NumberSetting range = new NumberSetting("Range",4.0,1.0,6.0,1.0);
+    public NumberSetting cooldown = new NumberSetting("Cooldown",0.625,0.100,2.0,0.001,"seconds");
+    public NumberSetting range = new NumberSetting("Range",4.0,1.0,6.0,1.0,"blocks");
 
     public KillAura() {
         super("KillAura", GLFW.GLFW_KEY_R,CATEGORY.COMBAT,false);

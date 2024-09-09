@@ -36,7 +36,6 @@ public class Fullbright extends Module{
     @Override
     public void onEnable() {
         super.onEnable();
-        ByteUtilityMod.LOGGER.info("Fullbright enabled");
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             StatusEffectInstance nightVision = new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, 2, false, false, true);
@@ -48,7 +47,6 @@ public class Fullbright extends Module{
     @Override
     public void onDisable() {
         super.onDisable();
-        ByteUtilityMod.LOGGER.info("Fullbright disabled");
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             if(nightVisionEnabled) {

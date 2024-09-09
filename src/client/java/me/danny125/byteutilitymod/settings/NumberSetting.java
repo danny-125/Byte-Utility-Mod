@@ -5,13 +5,15 @@ package me.danny125.byteutilitymod.settings;
 public class NumberSetting extends Setting{
 
     public double value, min, max, increment;
+    public String units;
 
-    public NumberSetting(String name, double value, double min, double max, double increment) {
+    public NumberSetting(String name, double value, double min, double max, double increment, String units) {
         this.name = name;
         this.value = value;
         this.min = min;
         this.max = max;
         this.increment = increment;
+        this.units = units;
     }
 
     public double getValue() {

@@ -1,6 +1,7 @@
 package me.danny125.byteutilitymod.modules.movement;
 
 import me.danny125.byteutilitymod.modules.Module;
+import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.util.PacketUtil;
 import net.minecraft.client.MinecraftClient;
@@ -11,10 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class Flight extends Module {
 
-    public ModeSetting mode = new ModeSetting("Mode","Vulcan","Vulcan","Vanilla");
+    public ModeSetting mode = new ModeSetting("Mode","Vanilla","Vulcan","Vanilla");
+    public BooleanSetting example = new BooleanSetting("Example",false);
 
     public Flight() {
         super("Flight", GLFW.GLFW_KEY_G,CATEGORY.MOVEMENT,false);
+        this.addSettings(mode, example);
     }
 
     @Override

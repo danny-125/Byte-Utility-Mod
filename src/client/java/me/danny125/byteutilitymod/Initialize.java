@@ -8,11 +8,14 @@ import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
+import me.danny125.byteutilitymod.settings.KeyBindSetting;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.settings.Setting;
+import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,6 +29,12 @@ public class Initialize {
 
     //communicate with the GameRendererMixin for the LSD module
     public static boolean loadPostProcessor = false;
+
+    //Click gui values
+    public int screenWidth = 0;
+    public int screenHeight = 0;
+    //end of click gui values
+
 
     // very sigma function that initializes the utility mod :)
     public static boolean InitializeMod(){
@@ -90,6 +99,10 @@ public class Initialize {
                     module.onDisable();
                 }
             }
+        }
+        if(ClickGui.INSTANCE.changing && key != GLFW.GLFW_KEY_ESCAPE && key != GLFW.GLFW_MOUSE_BUTTON_RIGHT){
+            ((KeyBindSetting)ClickGui.INSTANCE.currentSetting).setCode(key);
+            ClickGui.changing = false;
         }
     }
     public Module getModuleByName(String moduleName){

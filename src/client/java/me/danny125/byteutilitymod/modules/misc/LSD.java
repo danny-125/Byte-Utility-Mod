@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class LSD extends Module {
     public LSD(){
-        super("LSD", GLFW.GLFW_KEY_N,CATEGORY.MISCELLANEOUS,false);
+        super("LSD", 0,CATEGORY.MISCELLANEOUS,false);
     }
     MinecraftClient MC = MinecraftClient.getInstance();
 

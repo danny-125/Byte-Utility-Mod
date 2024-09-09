@@ -101,4 +101,7 @@ public class Module {
     public void onGameRender(CallbackInfo info){
 
     }
+    public CATEGORY getCategory(){
+        return this.category;
+    }
 }

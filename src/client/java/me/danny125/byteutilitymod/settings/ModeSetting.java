@@ -11,9 +11,12 @@ public class ModeSetting extends Setting{
 
     public List<String>modes;
 
+    public String mode;
+
     public ModeSetting(String name, String mode, String... modes) {
         this.name = name;
         this.modes = Arrays.asList(modes);
+        this.mode = mode;
         index = this.modes.indexOf(mode);
     }
 
@@ -38,7 +41,11 @@ public class ModeSetting extends Setting{
     }
 
     public String getMode() {
-        return modes.get(index);
+        return this.mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public List<String> getModes() {
