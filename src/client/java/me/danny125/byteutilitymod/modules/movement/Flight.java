@@ -13,11 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class Flight extends Module {
 
     public ModeSetting mode = new ModeSetting("Mode","Vanilla","Vulcan","Vanilla");
-    public BooleanSetting example = new BooleanSetting("Example",false);
 
     public Flight() {
         super("Flight", GLFW.GLFW_KEY_G,CATEGORY.MOVEMENT,false);
-        this.addSettings(mode, example);
+        this.addSettings(mode);
     }
 
     @Override

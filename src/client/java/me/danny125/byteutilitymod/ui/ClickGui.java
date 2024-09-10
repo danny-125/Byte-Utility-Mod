@@ -32,24 +32,46 @@ public class ClickGui extends Screen {
 
     public static ClickGui INSTANCE = new ClickGui();
 
-    public int screenWidth = Initialize.INSTANCE.screenWidth;
-    public int screenHeight = Initialize.INSTANCE.screenHeight;
-    public int rectangleWidth = (int)(screenWidth*0.300);
-    public int rectangleHeight = (int)(screenHeight*0.700);
-    public int titleBarHeight = (int)(screenHeight*0.03);
-    public int guiX = (screenWidth - rectangleWidth) / 2;
-    public int guiY = (screenHeight - rectangleHeight) / 2;
-    public int fart = 0;
-    public boolean isCollapsed = false;
-    public boolean shouldDrag = false;
-    public boolean canGoBack = false;
+    public static int screenWidth = Initialize.INSTANCE.screenWidth;
+    public static int screenHeight = Initialize.INSTANCE.screenHeight;
+    public static int rectangleWidth = (int)(screenWidth*0.300);
+    public static int rectangleHeight = (int)(screenHeight*0.700);
+    public static int titleBarHeight = (int)(screenHeight*0.03);
+    public static int guiX = (screenWidth - rectangleWidth) / 2;
+    public static int guiY = (screenHeight - rectangleHeight) / 2;
+    public static int fart = 0;
+    public static boolean isCollapsed = false;
+    public static boolean shouldDrag = false;
+    public static boolean canGoBack = false;
     public static boolean changing = false;
-    private double dragOffsetX;
-    private double dragOffsetY;
-    CurrentScreenType currentScreen = CurrentScreenType.CATEGORY_LIST;
-    Module.CATEGORY currentCategory = null;
-    Module currentModule = null;
+    public static double dragOffsetX;
+    public static double dragOffsetY;
+    public static CurrentScreenType currentScreen = CurrentScreenType.CATEGORY_LIST;
+    public static Module.CATEGORY currentCategory = null;
+    public static Module currentModule = null;
     public static Setting currentSetting = null;
+    public static boolean opened = false;
+
+    public void loadSettings(){
+        screenWidth = ClickGuiSettings.screenWidth;
+        screenHeight = ClickGuiSettings.screenHeight;
+        rectangleWidth = ClickGuiSettings.rectangleWidth;
+        rectangleHeight = ClickGuiSettings.rectangleHeight;
+        titleBarHeight = ClickGuiSettings.titleBarHeight;
+        guiX = ClickGuiSettings.guiX;
+        guiY = ClickGuiSettings.guiY;
+        fart = ClickGuiSettings.fart;
+        isCollapsed = ClickGuiSettings.isCollapsed;
+        shouldDrag = ClickGuiSettings.shouldDrag;
+        canGoBack = ClickGuiSettings.canGoBack;
+        changing = ClickGuiSettings.changing;
+        dragOffsetX = ClickGuiSettings.dragOffsetX;
+        dragOffsetY = ClickGuiSettings.dragOffsetY;
+        currentScreen = ClickGuiSettings.currentScreen;
+        currentCategory = ClickGuiSettings.currentCategory;
+        currentModule = ClickGuiSettings.currentModule;
+        currentSetting = ClickGuiSettings.currentSetting;
+    }
 
     public CurrentScreenType getParentScreen(){
         switch(currentScreen){
@@ -112,7 +134,17 @@ public class ClickGui extends Screen {
     }
 
     @Override
+    public void close() {
+        ClickGuiSettings.saveClickGui();
+        super.close();
+    }
+
+    @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        if(!opened){
+            this.loadSettings();
+            opened = true;
+        }
         super.render(context, mouseX, mouseY, delta);
         String title = getGuiTitle(currentScreen, currentModule);
         int titleTextWidth = client.textRenderer.getWidth(title);
@@ -222,11 +254,9 @@ public class ClickGui extends Screen {
                         changing = true;
                     }
                     fart = 1;
-                    int textWidth = client.textRenderer.getWidth(text);
-                    int textHeight = client.textRenderer.fontHeight;
 
                     context.getMatrices().push();
-                    context.drawText(client.textRenderer, text, guiX + 3, guiY+titleBarHeight+3, getTextColor(false), true);
+                    context.drawText(client.textRenderer, text, guiX + 3, guiY + titleBarHeight + 3, getTextColor(false), true);
                     context.getMatrices().pop();
                 }
                 if(currentSetting instanceof ModeSetting){
@@ -246,6 +276,19 @@ public class ClickGui extends Screen {
                 }
                 if(currentSetting instanceof NumberSetting){
                     NumberSetting numberSetting = (NumberSetting)currentSetting;
+                    String text = String.valueOf(numberSetting.getValue());
+                    String plus = "+";
+                    String minus = "-";
+
+                    int textWidth = client.textRenderer.getWidth(plus);
+                    int textHeight = client.textRenderer.fontHeight;
+
+                    context.getMatrices().push();
+                    context.drawText(client.textRenderer, text, guiX + 3, guiY + titleBarHeight + 3, getTextColor(false), true);
+                    context.getMatrices().pop();
+
+                    context.drawText(client.textRenderer, plus, guiX + 3, guiY+titleBarHeight+(textHeight+1)+3, getTextColor(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(textHeight+1)+3)), true);
+                    context.drawText(client.textRenderer, minus, guiX + 3, guiY+titleBarHeight+(2*textHeight+1)+3, getTextColor(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(2*textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(2*textHeight+1)+3)), true);
                 }
             }
             if(currentScreen.equals(CurrentScreenType.MODULE_LIST)){
@@ -380,6 +423,29 @@ public class ClickGui extends Screen {
                 }
                 if(currentSetting instanceof NumberSetting){
                     NumberSetting numberSetting = (NumberSetting)currentSetting;
+
+                    String plus = "+";
+                    String minus = "-";
+
+                    int textWidth = client.textRenderer.getWidth(plus);
+                    int textHeight = client.textRenderer.fontHeight;
+
+                    if(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(textHeight+1)+3)){
+                        System.out.println(numberSetting.getValue());
+                        System.out.println(numberSetting.getMax());
+                        System.out.println(numberSetting.getMin());
+                        System.out.println(numberSetting.increment);
+                        if(!((numberSetting.getValue() + numberSetting.increment) > numberSetting.getMax())) {
+                            numberSetting.setValue(numberSetting.getValue() + numberSetting.increment);
+                            return true;
+                        }
+                    }
+                    if(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(2*textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(2*textHeight+1)+3)){
+                        if(!((numberSetting.getValue()- numberSetting.increment) < numberSetting.getMin())) {
+                            numberSetting.setValue(numberSetting.getValue() - numberSetting.increment);
+                            return true;
+                        }
+                    }
                 }
             }
             if(currentScreen.equals(CurrentScreenType.SETTINGS_LIST)){
@@ -394,6 +460,23 @@ public class ClickGui extends Screen {
                         if(setting instanceof NumberSetting){
                             NumberSetting numberSetting = (NumberSetting) setting;
                             text = setting.name + ": " + numberSetting.getValue() + " " + numberSetting.units;
+                            String plus = "+";
+                            String minus = "-";
+
+                            int textWidth = client.textRenderer.getWidth(plus);
+                            int textHeight = client.textRenderer.fontHeight;
+
+                            if(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(textHeight+1)+3)){
+                                System.out.println("plus pressed");
+                                if(!((numberSetting.getValue()+ numberSetting.increment) > numberSetting.getMax())) {
+                                    ((NumberSetting) setting).setValue(numberSetting.getValue() + numberSetting.increment);
+                                }
+                            }
+                            if(MathUtil.isBetween(mouseX,mouseY,guiX+3,guiY+titleBarHeight+(2*textHeight+1)+3,guiX+3+textWidth,guiY+textHeight+titleBarHeight+(2*textHeight+1)+3)){
+                                if(!((numberSetting.getValue()- numberSetting.increment) < numberSetting.getMin())) {
+                                    ((NumberSetting) setting).setValue(numberSetting.getValue() - numberSetting.increment);
+                                }
+                            }
                         }
                         if(setting instanceof BooleanSetting){
                             BooleanSetting booleanSetting = (BooleanSetting) setting;

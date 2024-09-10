@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KillAura extends Module {
 
-    public NumberSetting cooldown = new NumberSetting("Cooldown",0.625,0.100,2.0,0.001,"seconds");
+    public NumberSetting cooldown = new NumberSetting("Cooldown",625.0,1.0,2000.0,50.0,"ms");
     public NumberSetting range = new NumberSetting("Range",4.0,1.0,6.0,1.0,"blocks");
 
     public KillAura() {
@@ -79,7 +79,7 @@ public class KillAura extends Module {
                 if(!nearbyEntities.isEmpty()) {
                     for (Entity entity : nearbyEntities) {
                         if (entity instanceof LivingEntity && entity.isAlive() && !entity.isTeammate(player)) {
-                            if (hasTimeElapsed((long)(cooldown.getValue()*1000)+1, true)) {
+                            if (hasTimeElapsed((long)(cooldown.getValue())+1, true)) {
                                 float[] rotations = calculateLookAt(player, entity);
                                 float originalYaw = player.getYaw();
                                 float originalPitch = player.getPitch();

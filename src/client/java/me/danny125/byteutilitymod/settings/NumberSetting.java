@@ -25,8 +25,7 @@ public class NumberSetting extends Setting{
     }
 
     public void setValue(double value) {
-        double precision = 1 / increment;
-        this.value = value / precision;
+        this.value = value;
     }
 
     public double getMin() {

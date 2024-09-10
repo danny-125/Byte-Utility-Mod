@@ -24,13 +24,12 @@ public abstract class GameRendererMixin {
     @Shadow
     public abstract void disablePostProcessor();
 
-    // Inject into the render method or any other method you need to check the state
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && isLSDActive()) {
             if(Initialize.INSTANCE.loadPostProcessor) {
-                Initialize.INSTANCE.loadPostProcessor = false;// Assuming 'isLSDActive()' checks if the module is enabled
+                Initialize.INSTANCE.loadPostProcessor = false;
                 if (this.postProcessor != null) {
                     this.disablePostProcessor();
                 }
@@ -44,8 +43,7 @@ public abstract class GameRendererMixin {
         }
     }
 
-    // You can create a helper method to check if your LSD module is active
     private boolean isLSDActive() {
-        return Initialize.INSTANCE.isModuleToggled("LSD");// Adjust according to your mod structure
+        return Initialize.INSTANCE.isModuleToggled("LSD");
     }
 }

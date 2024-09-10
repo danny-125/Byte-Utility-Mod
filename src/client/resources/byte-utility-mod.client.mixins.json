@@ -9,7 +9,8 @@
 		"InGameHudMixin",
 		"PlayerEntityMixin",
 		"IdentifierAccessor",
-		"GameRendererMixin"
+		"GameRendererMixin",
+		"GameShutdownMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
