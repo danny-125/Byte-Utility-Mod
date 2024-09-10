@@ -29,7 +29,6 @@ public class Eagle extends Module {
             BlockPos posBelowPlayer = mc.player.getBlockPos().down();
 
             if (mc.world.isAir(posBelowPlayer)) {
-                System.out.println("asdf");
                 // Force the player to sneak when they're near the edge
                 mc.options.sneakKey.setPressed(true);
             } else {
