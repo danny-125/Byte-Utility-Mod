@@ -4,6 +4,7 @@ import me.danny125.byteutilitymod.settings.KeyBindSetting;
 import me.danny125.byteutilitymod.settings.Setting;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.network.packet.Packet;
 import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -101,6 +102,7 @@ public class Module {
     public void onGameRender(CallbackInfo info){
 
     }
+
     public CATEGORY getCategory(){
         return this.category;
     }

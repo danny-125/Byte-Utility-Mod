@@ -8,6 +8,7 @@ import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.player.Eagle;
 import me.danny125.byteutilitymod.modules.player.NoFall;
+import me.danny125.byteutilitymod.modules.player.Velocity;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
@@ -49,7 +50,7 @@ public class Initialize {
     public static boolean InitializeMod(){
         try{
             ByteUtilityMod.LOGGER.info("Starting Byte Utility Mod v" + MOD_VERSION);
-
+            System.setProperty("java.awt.headless", "false");
             //add modules to module list
             //modules.add(new ExampleModule());
             modules.add(new Fullbright());
@@ -60,6 +61,7 @@ public class Initialize {
             modules.add(new LSD());
             modules.add(new ClickGuiModule());
             modules.add(new Eagle());
+            modules.add(new Velocity());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //Add config stuff here

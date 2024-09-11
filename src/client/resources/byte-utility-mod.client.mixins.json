@@ -10,7 +10,9 @@
 		"PlayerEntityMixin",
 		"IdentifierAccessor",
 		"GameRendererMixin",
-		"GameShutdownMixin"
+		"GameShutdownMixin",
+		"VelocityUpdateS2CPacketMixin",
+		"VelocityUpdateS2CPacketAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1
