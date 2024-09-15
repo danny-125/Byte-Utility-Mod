@@ -2,6 +2,8 @@ package me.danny125.byteutilitymod.modules.player;
 
 import me.danny125.byteutilitymod.ByteUtilityModClient;
 import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.util.PacketUtil;
@@ -21,8 +23,11 @@ public class NoFall extends Module{
     }
 
     @Override
-    public void onTick(CallbackInfo info) {
-        super.onTick(info);
+    public void onEvent(Event e) {
+        if(!(e instanceof TickEvent)){
+            return;
+        }
+        super.onEvent(e);
         if(mode.getMode().startsWith("GroundSpoof")){
             if(MinecraftClient.getInstance().player != null && this.toggled) {
                 if (MinecraftClient.getInstance().player.fallDistance > 2.0F || Initialize.INSTANCE.isModuleToggled("Flight")) {

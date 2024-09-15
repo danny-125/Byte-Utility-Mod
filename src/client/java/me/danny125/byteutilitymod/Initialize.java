@@ -1,5 +1,6 @@
 package me.danny125.byteutilitymod;
 
+import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
@@ -9,12 +10,18 @@ import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.player.Eagle;
 import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.player.Velocity;
+import me.danny125.byteutilitymod.modules.render.ESP;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
+import me.danny125.byteutilitymod.modules.render.Tracers;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.server.function.Tracer;
+import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -62,6 +69,8 @@ public class Initialize {
             modules.add(new ClickGuiModule());
             modules.add(new Eagle());
             modules.add(new Velocity());
+            modules.add(new ESP());
+            modules.add(new Tracers());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //Add config stuff here
@@ -216,12 +225,6 @@ public class Initialize {
             }
         }
     }
-
-    public static void onTick(CallbackInfo info){
-        for(Module module : modules){
-            module.onTick(info);
-        }
-    }
     public static void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info){
         for(Module module : modules){
             module.onRender(drawContext, renderTickCounter, info);
@@ -264,6 +267,11 @@ public class Initialize {
             }
         }
         return false;
+    }
+    public void onEvent(Event e){
+        for(Module module: modules){
+            module.onEvent(e);
+        }
     }
     public String getModuleMode(String moduleName){
         String mode = "";

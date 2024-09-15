@@ -1,5 +1,6 @@
 package me.danny125.byteutilitymod.modules;
 
+import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.settings.KeyBindSetting;
 import me.danny125.byteutilitymod.settings.Setting;
 import net.minecraft.client.gui.DrawContext;
@@ -93,7 +94,7 @@ public class Module {
         return this.name;
     }
 
-    public void onTick(CallbackInfo info){
+    public void onEvent(Event e){
 
     }
     public void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info){

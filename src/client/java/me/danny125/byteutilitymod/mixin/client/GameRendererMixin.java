@@ -1,10 +1,18 @@
 package me.danny125.byteutilitymod.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.event.EventDirection;
+import me.danny125.byteutilitymod.event.EventType;
+import me.danny125.byteutilitymod.event.RenderEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import org.joml.Matrix4f;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,5 +1,6 @@
 package me.danny125.byteutilitymod.modules.combat;
 
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.settings.NumberSetting;
@@ -80,8 +81,11 @@ public class KillAura extends Module {
     }
 
     @Override
-    public void onTick(CallbackInfo info) {
-        super.onTick(info);
+    public void onEvent(me.danny125.byteutilitymod.event.Event e) {
+        super.onEvent(e);
+        if(!(e instanceof TickEvent)){
+            return;
+        }
         if(this.toggled) {
             if(MinecraftClient.getInstance().world != null) {
                 PlayerEntity player = MinecraftClient.getInstance().player;
@@ -128,8 +132,8 @@ public class KillAura extends Module {
                                     if(MinecraftClient.getInstance().currentScreen == null) {
                                         try {
                                             click();
-                                        } catch (AWTException e) {
-                                            System.out.println(e);
+                                        } catch (AWTException ex) {
+                                            System.out.println(ex);
                                         }
                                     }
                                 }else {

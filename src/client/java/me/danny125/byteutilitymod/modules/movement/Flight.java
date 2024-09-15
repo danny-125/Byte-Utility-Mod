@@ -1,5 +1,7 @@
 package me.danny125.byteutilitymod.modules.movement;
 
+import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.settings.ModeSetting;
@@ -20,8 +22,11 @@ public class Flight extends Module {
     }
 
     @Override
-    public void onTick(CallbackInfo info) {
-        super.onTick(info);
+    public void onEvent(Event e) {
+        if(!(e instanceof TickEvent)){
+            return;
+        }
+        super.onEvent(e);
         if(MinecraftClient.getInstance().player != null){
             if(this.toggled && mode.getMode().equals("Vanilla")){
                 if(!MinecraftClient.getInstance().player.getAbilities().allowFlying){

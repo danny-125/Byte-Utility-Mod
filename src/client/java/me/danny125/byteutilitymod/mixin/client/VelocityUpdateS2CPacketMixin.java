@@ -26,15 +26,10 @@ public class VelocityUpdateS2CPacketMixin {
             if (entity instanceof PlayerEntity && entity.equals(client.player)) {
                 VelocityUpdateS2CPacketAccessor accessor = (VelocityUpdateS2CPacketAccessor) this;
 
-                // will change these to make it configurable
-                if(Initialize.INSTANCE.isModuleToggled("Velocity")) {
-                    for(Setting s : Initialize.INSTANCE.getModuleByName("Velocity").settings){
-                        if(s.name == "Modifier" && s instanceof NumberSetting){
-                            accessor.setVelocityX((int) (velocity.getX() * (((NumberSetting) s).value/100)));
-                            accessor.setVelocityY((int) (velocity.getY() * (((NumberSetting) s).value/100)));
-                            accessor.setVelocityZ((int) (velocity.getZ() * (((NumberSetting) s).value/100)));
-                        }
-                    }
+                if(Initialize.INSTANCE.isModuleToggled("AntiKnockback")) {
+                    accessor.setVelocityX(0);
+                    accessor.setVelocityY(0);
+                    accessor.setVelocityZ(0);
                 }
             }
         }

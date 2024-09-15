@@ -1,5 +1,7 @@
 package me.danny125.byteutilitymod.modules.player;
 
+import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
@@ -23,8 +25,11 @@ public class Eagle extends Module {
     }
 
     @Override
-    public void onTick(CallbackInfo ci){
-        super.onTick(ci);
+    public void onEvent(Event e){
+        super.onEvent(e);
+        if(!(e instanceof TickEvent)){
+            return;
+        }
         if(mc.player != null && this.toggled) {
             BlockPos posBelowPlayer = mc.player.getBlockPos().down();
 

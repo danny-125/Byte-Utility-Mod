@@ -1,6 +1,8 @@
 package me.danny125.byteutilitymod.modules.render;
 
 import me.danny125.byteutilitymod.ByteUtilityMod;
+import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -19,8 +21,11 @@ public class Fullbright extends Module{
     //Check if player has night vision in case the module is enabled by default or enabled in the config.
     //This is necessary because it won't be able to set night vision if player is not loaded into world/sever.
     @Override
-    public void onTick(CallbackInfo info) {
-        super.onTick(info);
+    public void onEvent(Event e) {
+        super.onEvent(e);
+        if(!(e instanceof TickEvent)){
+            return;
+        }
         if(this.toggled){
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
