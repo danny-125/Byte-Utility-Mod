@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
-    public static String MOD_VERSION = "0.1";
+    public static String MOD_VERSION = "0.2";
 
     public static Initialize INSTANCE = new Initialize();
 
@@ -70,7 +70,7 @@ public class Initialize {
             modules.add(new Eagle());
             modules.add(new Velocity());
             modules.add(new ESP());
-            modules.add(new Tracers());
+            //modules.add(new Tracers()); < - UNFINISHED
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //Add config stuff here
