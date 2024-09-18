@@ -6,7 +6,6 @@ import me.danny125.byteutilitymod.event.RenderEvent;
 import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.modules.Module;
-import me.danny125.byteutilitymod.util.ESPRenderer;
 import me.danny125.byteutilitymod.util.wurst.EntityUtils;
 import me.danny125.byteutilitymod.util.wurst.RegionPos;
 import me.danny125.byteutilitymod.util.wurst.RenderUtils;

@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClickGui extends Screen {
@@ -326,7 +327,7 @@ public class ClickGui extends Screen {
                 }
             }
         }
-        context.fill(guiX, guiY, guiX + rectangleWidth, guiY + titleBarHeight, 0x80c8171f);
+        context.fill(guiX, guiY, guiX + rectangleWidth, guiY + titleBarHeight, new Color(Initialize.getColor().getRed(),Initialize.getColor().getGreen(),Initialize.getColor().getBlue(),150).getRGB());
         String collapseButtonText = "-";
         int collapseButtonWidth = client.textRenderer.getWidth(collapseButtonText);
         int collapseButtonHeight = client.textRenderer.fontHeight;

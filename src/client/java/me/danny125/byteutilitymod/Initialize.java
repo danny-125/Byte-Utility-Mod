@@ -1,11 +1,13 @@
 package me.danny125.byteutilitymod;
 
 import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
 import me.danny125.byteutilitymod.modules.hud.HUD;
 import me.danny125.byteutilitymod.modules.misc.LSD;
+import me.danny125.byteutilitymod.modules.misc.Panic;
 import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.player.Eagle;
 import me.danny125.byteutilitymod.modules.player.NoFall;
@@ -16,15 +18,20 @@ import me.danny125.byteutilitymod.modules.render.Tracers;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.FontManager;
+import net.minecraft.client.font.FontStorage;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.server.function.Tracer;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
@@ -53,6 +61,38 @@ public class Initialize {
 
     public static String newline = System.getProperty("line.separator");
 
+    public static Color getColor() {
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        for(Module m: modules) {
+            if(m.getName() == "Color") {
+                if(m.toggled) {
+                    for(Setting s: m.ListSettings()) {
+                        if(s instanceof ModeSetting) {
+                            ModeSetting setting = (ModeSetting) s;
+                            if(Objects.equals(setting.getMode(), "Red")) {
+                                return new Color(200,0,0);
+                            }
+                            if(Objects.equals(((ModeSetting) s).getMode(), "Dameion")) {
+                                return new Color(0,255,0);
+                            }
+                            if(Objects.equals(((ModeSetting) s).getMode(), "Blue")) {
+                                return new Color(0,0,255);
+                            }
+                        }
+
+                    }
+                }else {
+                    return new Color(255,0,0);
+                }
+            }
+        }
+        return new Color(255,0,0);
+    }
+
+
+
     // very sigma function that initializes the utility mod :)
     public static boolean InitializeMod(){
         try{
@@ -70,7 +110,9 @@ public class Initialize {
             modules.add(new Eagle());
             modules.add(new Velocity());
             modules.add(new ESP());
-            //modules.add(new Tracers()); < - UNFINISHED
+            modules.add(new me.danny125.byteutilitymod.modules.hud.Color());
+            modules.add(new Panic());
+            //modules.add(new Tracers()); //< - UNFINISHED
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //Add config stuff here
