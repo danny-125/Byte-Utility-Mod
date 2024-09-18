@@ -13,7 +13,8 @@
 		"GameShutdownMixin",
 		"VelocityUpdateS2CPacketMixin",
 		"VelocityUpdateS2CPacketAccessor",
-		"GameRendererMixinWurst"
+		"GameRendererMixinWurst",
+		"ChatMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

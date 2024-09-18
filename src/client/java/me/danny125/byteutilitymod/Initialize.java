@@ -1,5 +1,8 @@
 package me.danny125.byteutilitymod;
 
+import me.danny125.byteutilitymod.commands.Command;
+import me.danny125.byteutilitymod.commands.Ping;
+import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
@@ -8,7 +11,9 @@ import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
 import me.danny125.byteutilitymod.modules.hud.HUD;
 import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.misc.Panic;
+import me.danny125.byteutilitymod.modules.movement.AutoSprint;
 import me.danny125.byteutilitymod.modules.movement.Flight;
+import me.danny125.byteutilitymod.modules.movement.InfJump;
 import me.danny125.byteutilitymod.modules.player.Eagle;
 import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.player.Velocity;
@@ -45,11 +50,12 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
-    public static String MOD_VERSION = "0.2";
+    public static String MOD_VERSION = "0.2.2";
 
     public static Initialize INSTANCE = new Initialize();
 
     public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
+    public static CopyOnWriteArrayList<Command> commands = new CopyOnWriteArrayList<Command>();
 
     //communicate with the GameRendererMixin for the LSD module
     public static boolean loadPostProcessor = false;
@@ -74,11 +80,14 @@ public class Initialize {
                             if(Objects.equals(setting.getMode(), "Red")) {
                                 return new Color(200,0,0);
                             }
-                            if(Objects.equals(((ModeSetting) s).getMode(), "Dameion")) {
+                            if(Objects.equals(((ModeSetting) s).getMode(), "Damieon")) {
                                 return new Color(0,255,0);
                             }
                             if(Objects.equals(((ModeSetting) s).getMode(), "Blue")) {
                                 return new Color(0,0,255);
+                            }
+                            if(Objects.equals(((ModeSetting) s).getMode(), "DamieonPurple")){
+                                return new Color(150,0,250);
                             }
                         }
 
@@ -112,9 +121,13 @@ public class Initialize {
             modules.add(new ESP());
             modules.add(new me.danny125.byteutilitymod.modules.hud.Color());
             modules.add(new Panic());
+            modules.add(new AutoSprint());
+            modules.add(new InfJump());
             //modules.add(new Tracers()); //< - UNFINISHED
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
+            //add commands to command list
+            commands.add(new Ping());
             //Add config stuff here
             loadConfig("ByteConfig.txt");
         }catch (Exception e){
@@ -311,6 +324,20 @@ public class Initialize {
         return false;
     }
     public void onEvent(Event e){
+        if(e instanceof ChatEvent){
+            ChatEvent chatEvent = (ChatEvent) e;
+            String message = chatEvent.getMessage();
+
+            for(Command command : commands){
+                if(message.startsWith("#")){
+                    String[] args = message.split(" ");
+                    if(args[0].equals("#" + command.getCommand())){
+                        command.runCommand();
+                        e.cancel();
+                    }
+                }
+            }
+        }
         for(Module module: modules){
             module.onEvent(e);
         }

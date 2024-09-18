@@ -31,7 +31,7 @@ public class HUD extends Module{
                 for(Setting s : Initialize.INSTANCE.getModuleByName("Color").settings){
                     if(s instanceof ModeSetting){
                         ModeSetting m = (ModeSetting)s;
-                        if(Objects.equals(m.getMode(), "Dameion")){
+                        if(Objects.equals(m.getMode(), "Damieon") || Objects.equals(m.getMode(), "DamieonPurple") ){
                             imageTexture = IdentifierAccessor.createIdentifier("byte-utility-mod", "textures/gui/dameion.png");
                         }
                     }
@@ -42,7 +42,7 @@ public class HUD extends Module{
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 
-            RenderSystem.setShaderColor((float)(Initialize.getColor().getRed()/5), (float)(Initialize.getColor().getGreen()/5), (float)(Initialize.getColor().getBlue()/5), 1.0f); // Red tint
+            RenderSystem.setShaderColor((float)(Initialize.getColor().getRed()/2), (float)(Initialize.getColor().getGreen()/2), (float)(Initialize.getColor().getBlue()/2), 1.0f); // Red tint
 
             drawContext.getMatrices().push();
 
