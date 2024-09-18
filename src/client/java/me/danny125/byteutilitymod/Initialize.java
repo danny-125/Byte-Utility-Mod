@@ -19,6 +19,7 @@ import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.player.Velocity;
 import me.danny125.byteutilitymod.modules.render.ESP;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
+import me.danny125.byteutilitymod.modules.render.MobESP;
 import me.danny125.byteutilitymod.modules.render.Tracers;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
@@ -123,6 +124,7 @@ public class Initialize {
             modules.add(new Panic());
             modules.add(new AutoSprint());
             modules.add(new InfJump());
+            modules.add(new MobESP());
             //modules.add(new Tracers()); //< - UNFINISHED
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();

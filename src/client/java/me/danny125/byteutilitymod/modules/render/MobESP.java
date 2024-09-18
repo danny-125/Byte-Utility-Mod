@@ -10,7 +10,10 @@ import me.danny125.byteutilitymod.util.wurst.EntityUtils;
 import me.danny125.byteutilitymod.util.wurst.RegionPos;
 import me.danny125.byteutilitymod.util.wurst.RenderUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -21,23 +24,25 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-public class ESP extends Module {
+public class MobESP extends Module {
 
     //Credit to Wurst Client for ESP Module
-    //Deadass wouldve made it myself but microsoft is a bunch of cucks who like to write shit code
 
     public final MinecraftClient MC = MinecraftClient.getInstance();
-    private final ArrayList<PlayerEntity> players = new ArrayList<>();
+    private final ArrayList<LivingEntity> mobs = new ArrayList<>();
+    private VertexBuffer mobBox;
 
-    public ESP() {
-        super("PlayerESP", 0, CATEGORY.RENDER, false);
+    public MobESP() {
+        super("MobESP", 0, CATEGORY.RENDER, false);
     }
 
     private void renderBoxes(MatrixStack matrixStack, float partialTicks,
@@ -45,7 +50,9 @@ public class ESP extends Module {
     {
         float extraSize = 0.1f;
 
-        for(PlayerEntity e : players)
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
+
+        for(LivingEntity e : mobs)
         {
             matrixStack.push();
 
@@ -56,20 +63,33 @@ public class ESP extends Module {
             matrixStack.scale(e.getWidth() + extraSize,
                     e.getHeight() + extraSize, e.getWidth() + extraSize);
 
-            // set color
-            //if(WURST.getFriends().contains(e.getName().getString()))
-            //    RenderSystem.setShaderColor(0, 0, 1, 0.5F);
-            //else
-            //{
-                float f = MC.player.distanceTo(e) / 20F;
-                RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
-            //}
+            float f = MC.player.distanceTo(e) / 20F;
+            RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
 
-            Box bb = new Box(-0.5, 0, -0.5, 0.5, 1, 0.5);
-            RenderUtils.drawOutlinedBox(bb, matrixStack);
+            Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
+            Matrix4f projMatrix = RenderSystem.getProjectionMatrix();
+            ShaderProgram shader = RenderSystem.getShader();
+            mobBox.bind();
+            mobBox.draw(viewMatrix, projMatrix, shader);
+            VertexBuffer.unbind();
 
             matrixStack.pop();
         }
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        mobBox = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        Box bb = new Box(-0.5, 0, -0.5, 0.5, 1, 0.5);
+        RenderUtils.drawOutlinedBox(bb, mobBox);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        if(mobBox != null)
+            mobBox.close();
     }
 
     @Override
@@ -81,16 +101,15 @@ public class ESP extends Module {
         }
 
         if(e instanceof TickEvent){
-            PlayerEntity player = MC.player;
-            ClientWorld world = MC.world;
+            mobs.clear();
 
-            players.clear();
-            Stream<AbstractClientPlayerEntity> stream = world.getPlayers()
-                    .parallelStream().filter(en -> !en.isRemoved() && en.getHealth() > 0)
-                    .filter(en -> en != player)
-                    .filter(en -> Math.abs(en.getY() - MC.player.getY()) <= 1e6);
+            Stream<LivingEntity> stream = StreamSupport
+                    .stream(MC.world.getEntities().spliterator(), false)
+                    .filter(LivingEntity.class::isInstance).map(en -> (LivingEntity)en)
+                    .filter(en -> !(en instanceof PlayerEntity))
+                    .filter(en -> !en.isRemoved() && en.getHealth() > 0);
 
-            players.addAll(stream.collect(Collectors.toList()));
+            mobs.addAll(stream.collect(Collectors.toList()));
         }
 
         if (e instanceof RenderEvent) {
@@ -108,6 +127,7 @@ public class ESP extends Module {
 
             Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
 
+            //for (Entity entity : client.world.getEntities()) {
                 // GL settings
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -127,6 +147,7 @@ public class ESP extends Module {
                 RenderSystem.setShaderColor(1, 1, 1, 1);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_BLEND);
+            //}
         }
     }
 }
