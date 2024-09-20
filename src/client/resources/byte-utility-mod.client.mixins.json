@@ -14,7 +14,8 @@
 		"VelocityUpdateS2CPacketMixin",
 		"VelocityUpdateS2CPacketAccessor",
 		"GameRendererMixinWurst",
-		"ChatMixin"
+		"ChatMixin",
+		"MinecraftClientMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

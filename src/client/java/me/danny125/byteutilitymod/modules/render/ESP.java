@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.RenderEvent;
 import me.danny125.byteutilitymod.event.TickEvent;
+import me.danny125.byteutilitymod.event.ViewBobbingEvent;
 import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.util.wurst.EntityUtils;
@@ -11,6 +12,7 @@ import me.danny125.byteutilitymod.util.wurst.RegionPos;
 import me.danny125.byteutilitymod.util.wurst.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -21,6 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -36,8 +39,78 @@ public class ESP extends Module {
     public final MinecraftClient MC = MinecraftClient.getInstance();
     private final ArrayList<PlayerEntity> players = new ArrayList<>();
 
+
+    public BooleanSetting boxes = new BooleanSetting("Boxes", true);
+    public BooleanSetting tracers = new BooleanSetting("Tracers", true);
+
     public ESP() {
         super("PlayerESP", 0, CATEGORY.RENDER, false);
+        this.addSettings(boxes,tracers);
+    }
+    public Vec3d getLookVec(float yaw,float pitch)
+    {
+        float radPerDeg = MathHelper.RADIANS_PER_DEGREE;
+        float pi = MathHelper.PI;
+
+        float adjustedYaw = -MathHelper.wrapDegrees(yaw) * radPerDeg - pi;
+        float cosYaw = MathHelper.cos(adjustedYaw);
+        float sinYaw = MathHelper.sin(adjustedYaw);
+
+        float adjustedPitch = -MathHelper.wrapDegrees(pitch) * radPerDeg;
+        float nCosPitch = -MathHelper.cos(adjustedPitch);
+        float sinPitch = MathHelper.sin(adjustedPitch);
+
+        return new Vec3d(sinYaw * nCosPitch, sinPitch, cosYaw * nCosPitch);
+    }
+    public Vec3d getClientLookVec(float partialTicks)
+    {
+        float yaw = MC.player.getYaw(partialTicks);
+        float pitch = MC.player.getPitch(partialTicks);
+        return getLookVec(yaw,pitch);
+    }
+    private void renderTracers(MatrixStack matrixStack, float partialTicks,
+                               RegionPos region)
+    {
+        if(players.isEmpty())
+            return;
+
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+
+        Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+
+        Tessellator tessellator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tessellator.begin(
+                VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
+
+        Vec3d regionVec = region.toVec3d();
+        Vec3d start = getClientLookVec(partialTicks)
+                .add(RenderUtils.getCameraPos()).subtract(regionVec);
+
+        for(PlayerEntity e : players)
+        {
+            Vec3d end = EntityUtils.getLerpedBox(e, partialTicks).getCenter()
+                    .subtract(regionVec);
+
+            float r, g, b;
+
+
+                float f = MC.player.distanceTo(e) / 20F;
+                r = MathHelper.clamp(2 - f, 0, 1);
+                g = MathHelper.clamp(f, 0, 1);
+                b = 0;
+
+
+            bufferBuilder
+                    .vertex(matrix, (float)start.x, (float)start.y, (float)start.z)
+                    .color(r, g, b, 0.5F);
+
+            bufferBuilder
+                    .vertex(matrix, (float)end.x, (float)end.y, (float)end.z)
+                    .color(r, g, b, 0.5F);
+        }
+
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
     }
 
     private void renderBoxes(MatrixStack matrixStack, float partialTicks,
@@ -80,6 +153,12 @@ public class ESP extends Module {
             return;
         }
 
+        if(e instanceof ViewBobbingEvent){
+            if(tracers.isToggled()){
+                e.cancel(false);
+            }
+        }
+
         if(e instanceof TickEvent){
             PlayerEntity player = MC.player;
             ClientWorld world = MC.world;
@@ -119,7 +198,12 @@ public class ESP extends Module {
                 RenderUtils.applyRegionalRenderOffset(matrixStack, region);
 
                 // draw boxes
-                renderBoxes(matrixStack, partialTicks, region);
+                if(boxes.isToggled()) {
+                    renderBoxes(matrixStack, partialTicks, region);
+                }
+                if(tracers.isToggled()){
+                    renderTracers(matrixStack,partialTicks,region);
+                }
 
                 matrixStack.pop();
 

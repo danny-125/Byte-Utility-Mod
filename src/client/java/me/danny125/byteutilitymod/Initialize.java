@@ -1,9 +1,13 @@
 package me.danny125.byteutilitymod;
 
 import me.danny125.byteutilitymod.commands.Command;
+import me.danny125.byteutilitymod.commands.Config;
+import me.danny125.byteutilitymod.commands.Help;
 import me.danny125.byteutilitymod.commands.Ping;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
+import me.danny125.byteutilitymod.event.JoinWorldEvent;
+import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
@@ -20,7 +24,6 @@ import me.danny125.byteutilitymod.modules.player.Velocity;
 import me.danny125.byteutilitymod.modules.render.ESP;
 import me.danny125.byteutilitymod.modules.render.Fullbright;
 import me.danny125.byteutilitymod.modules.render.MobESP;
-import me.danny125.byteutilitymod.modules.render.Tracers;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.MinecraftClient;
@@ -51,7 +54,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
-    public static String MOD_VERSION = "0.2.2";
+    public static String MOD_VERSION = "0.3";
 
     public static Initialize INSTANCE = new Initialize();
 
@@ -60,6 +63,8 @@ public class Initialize {
 
     //communicate with the GameRendererMixin for the LSD module
     public static boolean loadPostProcessor = false;
+
+    public static boolean firstTick = false;
 
     //Click gui values
     public int screenWidth = 0;
@@ -129,6 +134,8 @@ public class Initialize {
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list
+            commands.add(new Help());
+            commands.add(new Config());
             commands.add(new Ping());
             //Add config stuff here
             loadConfig("ByteConfig.txt");
@@ -326,16 +333,23 @@ public class Initialize {
         return false;
     }
     public void onEvent(Event e){
+        if(e instanceof JoinWorldEvent){
+                for(Module module : modules){
+                    if(module.isToggled()){
+                        module.onEnable();
+                    }
+                }
+        }
         if(e instanceof ChatEvent){
             ChatEvent chatEvent = (ChatEvent) e;
             String message = chatEvent.getMessage();
 
             for(Command command : commands){
                 if(message.startsWith("#")){
+                    e.cancel(true);
                     String[] args = message.split(" ");
                     if(args[0].equals("#" + command.getCommand())){
-                        command.runCommand();
-                        e.cancel();
+                        command.runCommand(message);
                     }
                 }
             }

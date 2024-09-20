@@ -11,6 +11,7 @@ import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.event.EventDirection;
 import me.danny125.byteutilitymod.event.EventType;
 import me.danny125.byteutilitymod.event.RenderEvent;
+import me.danny125.byteutilitymod.event.ViewBobbingEvent;
 import org.joml.Matrix4f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,12 +50,14 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
     private void onRenderWorldViewBobbing(RenderTickCounter tickCounter,
                                           CallbackInfo ci)
     {
-       // CameraTransformViewBobbingEvent event =
-       //         new CameraTransformViewBobbingEvent();
-       // EventManager.fire(event);
-//
-        //if(event.isCancelled())
-       //     cancelNextBobView = true;
+
+        ViewBobbingEvent viewBobbingEvent = new ViewBobbingEvent(ci,EventType.UNDEFINED,EventDirection.UNDEFINED);
+        Initialize.INSTANCE.onEvent(viewBobbingEvent);
+
+        if(viewBobbingEvent.isCancelled()) {
+            System.out.println("its cancelled");
+            cancelNextBobView = true;
+        }
     }
 
     /**
@@ -124,8 +127,8 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
                                      float tickDelta, boolean includeFluids, Operation<HitResult> original)
     {
         //if(!WurstClient.INSTANCE.getHax().liquidsHack.isEnabled())
-          //  return original.call(instance, maxDistance, tickDelta,
-          //          includeFluids);
+        //  return original.call(instance, maxDistance, tickDelta,
+        //          includeFluids);
 
         return original.call(instance, maxDistance, tickDelta, true);
     }
@@ -151,7 +154,7 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
                                                  float tickDelta, CallbackInfoReturnable<Float> cir)
     {
         //FullbrightHack fullbright =
-         //       WurstClient.INSTANCE.getHax().fullbrightHack;
+        //       WurstClient.INSTANCE.getHax().fullbrightHack;
 
         //if(fullbright.isNightVisionActive())
         //    cir.setReturnValue(fullbright.getNightVisionStrength());
@@ -164,6 +167,6 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
                                     CallbackInfo ci)
     {
         //if(WurstClient.INSTANCE.getHax().noHurtcamHack.isEnabled())
-         //   ci.cancel();
+        //   ci.cancel();
     }
 }

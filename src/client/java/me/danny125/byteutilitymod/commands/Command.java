@@ -1,11 +1,15 @@
 package me.danny125.byteutilitymod.commands;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class Command {
     public String command;
     public String description;
-    public Command(String command, String description){
+    public String usage;
+    public Command(String command, String description, String usage){
         this.command = command;
         this.description = description;
+        this.usage = usage;
     }
     public String getCommand(){
         return this.command;
@@ -13,7 +17,10 @@ public class Command {
     public String getDescription(){
         return this.description;
     }
-    public void runCommand(){
+    public String getUsage(){
+        return this.usage;
+    }
+    public void runCommand(String msg){
 
     }
 }

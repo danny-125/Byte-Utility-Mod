@@ -24,10 +24,10 @@ public class Event {
     public EventDirection getEventDirection(){
         return this.eventDirection;
     }
-    public void cancel(){
-        if(ci.isCancellable()) {
+    public void cancel(boolean cancelci){
+        if(ci.isCancellable() && cancelci) {
             this.ci.cancel();
-            this.cancelled = false;
         }
+        this.cancelled = true;
     }
 }
