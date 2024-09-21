@@ -7,8 +7,6 @@ import me.danny125.byteutilitymod.commands.Ping;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
-import me.danny125.byteutilitymod.event.TickEvent;
-import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
@@ -18,6 +16,7 @@ import me.danny125.byteutilitymod.modules.misc.Panic;
 import me.danny125.byteutilitymod.modules.movement.AutoSprint;
 import me.danny125.byteutilitymod.modules.movement.Flight;
 import me.danny125.byteutilitymod.modules.movement.InfJump;
+import me.danny125.byteutilitymod.modules.movement.Step;
 import me.danny125.byteutilitymod.modules.player.Eagle;
 import me.danny125.byteutilitymod.modules.player.NoFall;
 import me.danny125.byteutilitymod.modules.player.Velocity;
@@ -27,16 +26,8 @@ import me.danny125.byteutilitymod.modules.render.MobESP;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontManager;
-import net.minecraft.client.font.FontStorage;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.server.function.Tracer;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -130,6 +121,7 @@ public class Initialize {
             modules.add(new AutoSprint());
             modules.add(new InfJump());
             modules.add(new MobESP());
+            modules.add(new Step());
             //modules.add(new Tracers()); //< - UNFINISHED
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();

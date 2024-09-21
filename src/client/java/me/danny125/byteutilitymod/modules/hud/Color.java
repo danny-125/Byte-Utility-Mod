@@ -2,7 +2,6 @@ package me.danny125.byteutilitymod.modules.hud;
 
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.ModeSetting;
-import me.danny125.byteutilitymod.settings.NumberSetting;
 
 public class Color extends Module {
 

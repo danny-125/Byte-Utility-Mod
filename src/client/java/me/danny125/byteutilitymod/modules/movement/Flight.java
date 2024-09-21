@@ -3,14 +3,11 @@ package me.danny125.byteutilitymod.modules.movement;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
-import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.util.PacketUtil;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class Flight extends Module {
 
@@ -27,18 +24,16 @@ public class Flight extends Module {
             return;
         }
         super.onEvent(e);
-        if(MinecraftClient.getInstance().player != null){
+        if(mc.player != null){
             if(this.toggled && mode.getMode().equals("Vanilla")){
-                if(!MinecraftClient.getInstance().player.getAbilities().allowFlying){
-                    MinecraftClient.getInstance().player.getAbilities().allowFlying = true;
+                if(!mc.player.getAbilities().allowFlying){
+                    mc.player.getAbilities().allowFlying = true;
                 }
-                if(!MinecraftClient.getInstance().player.getAbilities().flying){
-                    MinecraftClient.getInstance().player.getAbilities().flying = true;
+                if(!mc.player.getAbilities().flying){
+                    mc.player.getAbilities().flying = true;
                 }
             }
             if(mode.getMode().equals("Vulcan") && this.toggled){
-                MinecraftClient mc = MinecraftClient.getInstance();
-
                 PacketUtil.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
                 Vec3d velocity = mc.player.getVelocity();
                 mc.player.jump();
@@ -58,13 +53,13 @@ public class Flight extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(MinecraftClient.getInstance().player != null) {
+        if(mc.player != null) {
             if(mode.getMode().equals("Vanilla")) {
-                MinecraftClient.getInstance().player.getAbilities().allowFlying = true;
-                MinecraftClient.getInstance().player.getAbilities().flying = true;
+                mc.player.getAbilities().allowFlying = true;
+                mc.player.getAbilities().flying = true;
             }
             if(mode.getMode().equals("Vulcan")){
-                MinecraftClient.getInstance().player.jump();
+                mc.player.jump();
             }
         }
     }
@@ -72,10 +67,10 @@ public class Flight extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
-        if(MinecraftClient.getInstance().player != null) {
+        if(mc.player != null) {
             if(mode.getMode().equals("Vanilla")) {
-                MinecraftClient.getInstance().player.getAbilities().allowFlying = false;
-                MinecraftClient.getInstance().player.getAbilities().flying = false;
+                mc.player.getAbilities().allowFlying = false;
+                mc.player.getAbilities().flying = false;
             }
         }
     }

@@ -1,11 +1,9 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.ByteUtilityMod;
 import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.EventDirection;
 import me.danny125.byteutilitymod.event.EventType;
-import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

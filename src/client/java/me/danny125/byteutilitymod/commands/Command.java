@@ -1,7 +1,5 @@
 package me.danny125.byteutilitymod.commands;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 public class Command {
     public String command;
     public String description;

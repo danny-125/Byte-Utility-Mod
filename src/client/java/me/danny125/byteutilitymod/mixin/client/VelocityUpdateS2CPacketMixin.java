@@ -1,8 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
 import me.danny125.byteutilitymod.Initialize;
-import me.danny125.byteutilitymod.settings.NumberSetting;
-import me.danny125.byteutilitymod.settings.Setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

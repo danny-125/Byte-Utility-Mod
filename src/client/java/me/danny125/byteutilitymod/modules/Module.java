@@ -3,10 +3,9 @@ package me.danny125.byteutilitymod.modules;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.settings.KeyBindSetting;
 import me.danny125.byteutilitymod.settings.Setting;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.network.packet.Packet;
-import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class Module {
     public boolean enableOnStart;
     public List<Setting> settings = new ArrayList<Setting>();
     public KeyBindSetting keyCode = new KeyBindSetting(0);
+    public MinecraftClient mc;
 
     public enum CATEGORY{
         RENDER,
@@ -37,6 +37,7 @@ public class Module {
         this.addSettings(keyCode);
         this.name = MODULE_NAME;
         this.enableOnStart = ENABLE_ON_START;
+        this.mc = MinecraftClient.getInstance();
     }
 
     public void addSettings(Setting... settings) {

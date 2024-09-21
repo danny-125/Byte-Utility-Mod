@@ -6,7 +6,6 @@ import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.settings.Setting;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
@@ -25,7 +24,6 @@ public class HUD extends Module{
     public void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info) {
         super.onRender(drawContext, renderTickCounter, info);
         if(this.toggled){
-            MinecraftClient client = MinecraftClient.getInstance();
             Identifier imageTexture = IdentifierAccessor.createIdentifier("byte-utility-mod", "textures/gui/logo.png");
             if(Initialize.INSTANCE.getModuleByName("Color").isToggled()){
                 for(Setting s : Initialize.INSTANCE.getModuleByName("Color").settings){
@@ -68,19 +66,19 @@ public class HUD extends Module{
 
             int MODULE_COUNT = 0;
 
-            Initialize.modules.sort(Comparator.comparingInt(m -> client.textRenderer.getWidth(((Module)m).getName())).reversed());
+            Initialize.modules.sort(Comparator.comparingInt(m -> mc.textRenderer.getWidth(((Module)m).getName())).reversed());
 
             for(Module m : Initialize.INSTANCE.modules){
                 if(m.isToggled()){
                     String text = m.getName();
 
-                    int textWidth = client.textRenderer.getWidth(text);
-                    int textHeight = client.textRenderer.fontHeight;
+                    int textWidth = mc.textRenderer.getWidth(text);
+                    int textHeight = mc.textRenderer.fontHeight;
                     int screenWidth = drawContext.getScaledWindowWidth();
                     int screenHeight = drawContext.getScaledWindowHeight();
 
                     drawContext.getMatrices().push();
-                    drawContext.drawText(client.textRenderer, text, x, y+(MODULE_COUNT*textHeight+1)+75, Initialize.getColor().getRGB(), true);
+                    drawContext.drawText(mc.textRenderer, text, x, y+(MODULE_COUNT*textHeight+1)+75, Initialize.getColor().getRGB(), true);
                     drawContext.getMatrices().pop();
                     MODULE_COUNT++;
                 }
