@@ -1,19 +1,15 @@
 package me.danny125.byteutilitymod.ui;
 
-import me.danny125.byteutilitymod.ByteUtilityMod;
 import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.util.MathUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClickGui extends Screen {
     public ClickGui() {

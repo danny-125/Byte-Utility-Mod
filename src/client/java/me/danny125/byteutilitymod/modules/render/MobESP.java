@@ -12,28 +12,22 @@ import me.danny125.byteutilitymod.util.wurst.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.gl.VertexBuffer;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 public class MobESP extends Module {
     //Credit to Wurst Client for ESP Module
-    public final MinecraftClient MC = MinecraftClient.getInstance();
     private final ArrayList<LivingEntity> mobs = new ArrayList<>();
     private VertexBuffer mobBox;
 
@@ -58,7 +52,7 @@ public class MobESP extends Module {
             matrixStack.translate(lerpedPos.x, lerpedPos.y, lerpedPos.z);
             matrixStack.scale(e.getWidth() + extraSize,
                     e.getHeight() + extraSize, e.getWidth() + extraSize);
-            float f = MC.player.distanceTo(e) / 20F;
+            float f = mc.player.distanceTo(e) / 20F;
             RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
             Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
             Matrix4f projMatrix = RenderSystem.getProjectionMatrix();
@@ -86,8 +80,8 @@ public class MobESP extends Module {
     }
     public Vec3d getClientLookVec(float partialTicks)
     {
-        float yaw = MC.player.getYaw(partialTicks);
-        float pitch = MC.player.getPitch(partialTicks);
+        float yaw = mc.player.getYaw(partialTicks);
+        float pitch = mc.player.getPitch(partialTicks);
         return getLookVec(yaw,pitch);
     }
     private void renderTracers(MatrixStack matrixStack, float partialTicks,
@@ -114,7 +108,7 @@ public class MobESP extends Module {
             Vec3d end = EntityUtils.getLerpedBox(e, partialTicks).getCenter()
                     .subtract(regionVec);
 
-            float f = MC.player.distanceTo(e) / 20F;
+            float f = mc.player.distanceTo(e) / 20F;
             float r = MathHelper.clamp(2 - f, 0, 1);
             float g = MathHelper.clamp(f, 0, 1);
 
@@ -147,7 +141,7 @@ public class MobESP extends Module {
     public void onEvent(Event e) {
         super.onEvent(e);
 
-        if(!this.toggled || MC.world == null){
+        if(!this.toggled || mc.world == null){
             return;
         }
 
@@ -160,7 +154,7 @@ public class MobESP extends Module {
         if(e instanceof TickEvent){
             mobs.clear();
             Stream<LivingEntity> stream = StreamSupport
-                    .stream(MC.world.getEntities().spliterator(), false)
+                    .stream(mc.world.getEntities().spliterator(), false)
                     .filter(LivingEntity.class::isInstance).map(en -> (LivingEntity)en)
                     .filter(en -> !(en instanceof PlayerEntity))
                     .filter(en -> !en.isRemoved() && en.getHealth() > 0);

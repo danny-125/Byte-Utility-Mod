@@ -7,10 +7,7 @@ import org.lwjgl.glfw.GLFW;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
-import java.lang.reflect.Method;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Config extends Command{
     public Config() {

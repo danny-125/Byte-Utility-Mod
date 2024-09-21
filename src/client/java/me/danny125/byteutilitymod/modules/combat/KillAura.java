@@ -4,8 +4,6 @@ import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.BooleanSetting;
 import me.danny125.byteutilitymod.settings.NumberSetting;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -13,7 +11,6 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -87,8 +84,8 @@ public class KillAura extends Module {
             return;
         }
         if(this.toggled) {
-            if(MinecraftClient.getInstance().world != null) {
-                PlayerEntity player = MinecraftClient.getInstance().player;
+            if(mc.world != null) {
+                PlayerEntity player = mc.player;
 
                 if (!player.isAlive() || player.isSpectator()) {
                     return;
@@ -96,7 +93,7 @@ public class KillAura extends Module {
 
                 double auraRange = range.getValue();
 
-                List<Entity> nearbyEntities = MinecraftClient.getInstance().world.getOtherEntities(player, player.getBoundingBox().expand(auraRange));
+                List<Entity> nearbyEntities = mc.world.getOtherEntities(player, player.getBoundingBox().expand(auraRange));
 
                 if(!nearbyEntities.isEmpty()) {
                     for (Entity entity : nearbyEntities) {
@@ -129,7 +126,7 @@ public class KillAura extends Module {
                                 player.setYaw(rotations[0]);
                                 player.setPitch(rotations[1]);
                                 if(legit.isToggled()){
-                                    if(MinecraftClient.getInstance().currentScreen == null) {
+                                    if(mc.currentScreen == null) {
                                         try {
                                             click();
                                         } catch (AWTException ex) {
@@ -137,7 +134,7 @@ public class KillAura extends Module {
                                         }
                                     }
                                 }else {
-                                    MinecraftClient.getInstance().interactionManager.attackEntity(player,entity);
+                                    mc.interactionManager.attackEntity(player,entity);
                                     player.swingHand(Hand.MAIN_HAND);
                                     if(fakelook.isToggled()) {
                                         player.setYaw(originalYaw);

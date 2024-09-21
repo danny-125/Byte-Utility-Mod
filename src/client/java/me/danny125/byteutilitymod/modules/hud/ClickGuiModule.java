@@ -2,7 +2,6 @@ package me.danny125.byteutilitymod.modules.hud;
 
 import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.ui.ClickGui;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import org.lwjgl.glfw.GLFW;
@@ -16,7 +15,7 @@ public class ClickGuiModule extends Module {
         super("ClickGui", GLFW.GLFW_KEY_RIGHT_SHIFT, CATEGORY.HUD,false);
     }
     public void onEnable() {
-        MinecraftClient.getInstance().setScreen(new ClickGui());
+        mc.setScreen(new ClickGui());
         this.toggle();
     }
 

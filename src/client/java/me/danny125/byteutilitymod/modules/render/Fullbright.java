@@ -1,15 +1,12 @@
 package me.danny125.byteutilitymod.modules.render;
 
-import me.danny125.byteutilitymod.ByteUtilityMod;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class Fullbright extends Module{
     public Fullbright() {
@@ -27,7 +24,7 @@ public class Fullbright extends Module{
             return;
         }
         if(this.toggled){
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            ClientPlayerEntity player = mc.player;
             if (player != null) {
                 if (!player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
                     StatusEffectInstance nightVision = new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, 2, false, false, true);
@@ -41,7 +38,7 @@ public class Fullbright extends Module{
     @Override
     public void onEnable() {
         super.onEnable();
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        ClientPlayerEntity player = mc.player;
         if (player != null) {
             StatusEffectInstance nightVision = new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, 2, false, false, true);
             player.addStatusEffect(nightVision);
@@ -52,7 +49,7 @@ public class Fullbright extends Module{
     @Override
     public void onDisable() {
         super.onDisable();
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        ClientPlayerEntity player = mc.player;
         if (player != null) {
             if(nightVisionEnabled) {
                 player.removeStatusEffect(StatusEffects.NIGHT_VISION);

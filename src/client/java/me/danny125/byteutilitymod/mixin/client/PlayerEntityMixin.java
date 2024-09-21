@@ -1,8 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.ByteUtilityModClient;
 import me.danny125.byteutilitymod.Initialize;
-import me.danny125.byteutilitymod.settings.NumberSetting;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

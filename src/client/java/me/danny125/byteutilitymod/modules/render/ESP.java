@@ -10,15 +10,10 @@ import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.util.wurst.EntityUtils;
 import me.danny125.byteutilitymod.util.wurst.RegionPos;
 import me.danny125.byteutilitymod.util.wurst.RenderUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +21,6 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -36,9 +30,7 @@ public class ESP extends Module {
     //Credit to Wurst Client for ESP Module
     //Deadass wouldve made it myself but microsoft is a bunch of cucks who like to write shit code
 
-    public final MinecraftClient MC = MinecraftClient.getInstance();
     private final ArrayList<PlayerEntity> players = new ArrayList<>();
-
 
     public BooleanSetting boxes = new BooleanSetting("Boxes", true);
     public BooleanSetting tracers = new BooleanSetting("Tracers", true);
@@ -64,8 +56,8 @@ public class ESP extends Module {
     }
     public Vec3d getClientLookVec(float partialTicks)
     {
-        float yaw = MC.player.getYaw(partialTicks);
-        float pitch = MC.player.getPitch(partialTicks);
+        float yaw = mc.player.getYaw(partialTicks);
+        float pitch = mc.player.getPitch(partialTicks);
         return getLookVec(yaw,pitch);
     }
     private void renderTracers(MatrixStack matrixStack, float partialTicks,
@@ -95,7 +87,7 @@ public class ESP extends Module {
             float r, g, b;
 
 
-                float f = MC.player.distanceTo(e) / 20F;
+                float f = mc.player.distanceTo(e) / 20F;
                 r = MathHelper.clamp(2 - f, 0, 1);
                 g = MathHelper.clamp(f, 0, 1);
                 b = 0;
@@ -134,7 +126,7 @@ public class ESP extends Module {
             //    RenderSystem.setShaderColor(0, 0, 1, 0.5F);
             //else
             //{
-                float f = MC.player.distanceTo(e) / 20F;
+                float f = mc.player.distanceTo(e) / 20F;
                 RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
             //}
 
@@ -149,7 +141,7 @@ public class ESP extends Module {
     public void onEvent(Event e) {
         super.onEvent(e);
 
-        if(!this.toggled || MC.world == null){
+        if(!this.toggled || mc.world == null){
             return;
         }
 
@@ -160,14 +152,14 @@ public class ESP extends Module {
         }
 
         if(e instanceof TickEvent){
-            PlayerEntity player = MC.player;
-            ClientWorld world = MC.world;
+            PlayerEntity player = mc.player;
+            ClientWorld world = mc.world;
 
             players.clear();
             Stream<AbstractClientPlayerEntity> stream = world.getPlayers()
                     .parallelStream().filter(en -> !en.isRemoved() && en.getHealth() > 0)
                     .filter(en -> en != player)
-                    .filter(en -> Math.abs(en.getY() - MC.player.getY()) <= 1e6);
+                    .filter(en -> Math.abs(en.getY() - mc.player.getY()) <= 1e6);
 
             players.addAll(stream.collect(Collectors.toList()));
         }
@@ -178,14 +170,13 @@ public class ESP extends Module {
             MatrixStack matrixStack = renderEvent.getMatrixStack();
             float partialTicks = renderEvent.getTickDelta();
 
-            MinecraftClient client = MinecraftClient.getInstance();
-            PlayerEntity playerEntity = client.player;
+            PlayerEntity playerEntity = mc.player;
 
-            if (client.world == null || playerEntity == null) {
+            if (mc.world == null || playerEntity == null) {
                 return; // Avoid null reference crashes
             }
 
-            Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
+            Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 
                 // GL settings
                 GL11.glEnable(GL11.GL_BLEND);
