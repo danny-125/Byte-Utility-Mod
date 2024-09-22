@@ -7,6 +7,7 @@ import me.danny125.byteutilitymod.commands.Ping;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
+import me.danny125.byteutilitymod.extension.ExtensionManager;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
@@ -29,6 +30,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import org.lwjgl.glfw.GLFW;
+import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
@@ -122,7 +124,8 @@ public class Initialize {
             modules.add(new InfJump());
             modules.add(new MobESP());
             modules.add(new Step());
-            //modules.add(new Tracers()); //< - UNFINISHED
+            //Load extensions
+            ExtensionManager.loadExtensions();
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list

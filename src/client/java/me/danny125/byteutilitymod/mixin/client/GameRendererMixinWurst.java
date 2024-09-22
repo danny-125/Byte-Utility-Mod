@@ -55,7 +55,6 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
         Initialize.INSTANCE.onEvent(viewBobbingEvent);
 
         if(viewBobbingEvent.isCancelled()) {
-            System.out.println("its cancelled");
             cancelNextBobView = true;
         }
     }
