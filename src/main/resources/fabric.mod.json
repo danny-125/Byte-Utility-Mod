@@ -3,15 +3,16 @@
 	"id": "byte-utility-mod",
 	"version": "${version}",
 	"name": "Byte Utility Mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Break the laws of minecraft",
 	"authors": [
-		"Me!"
+		"danny125",
+		"crazymoose77756"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
-	"license": "CC0-1.0",
+	"license": "GPL-v3",
 	"icon": "assets/byte-utility-mod/icon.png",
 	"environment": "*",
 	"entrypoints": {

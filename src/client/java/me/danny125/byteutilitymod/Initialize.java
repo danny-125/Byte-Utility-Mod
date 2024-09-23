@@ -7,7 +7,6 @@ import me.danny125.byteutilitymod.commands.Ping;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
-import me.danny125.byteutilitymod.extension.ExtensionManager;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
@@ -124,8 +123,6 @@ public class Initialize {
             modules.add(new InfJump());
             modules.add(new MobESP());
             modules.add(new Step());
-            //Load extensions
-            ExtensionManager.loadExtensions();
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list
