@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class LSD extends Module {
     public LSD(){
-        super("LSD", 0,CATEGORY.MISCELLANEOUS,false);
+        super("AcidTrip", 0,CATEGORY.MISCELLANEOUS,false);
     }
 
     @Override

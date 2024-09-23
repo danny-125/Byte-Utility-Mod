@@ -43,6 +43,6 @@ public abstract class GameRendererMixin {
     }
 
     private boolean isLSDActive() {
-        return Initialize.INSTANCE.isModuleToggled("LSD");
+        return Initialize.INSTANCE.isModuleToggled("AcidTrip");
     }
 }
