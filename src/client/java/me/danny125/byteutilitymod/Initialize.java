@@ -7,6 +7,7 @@ import me.danny125.byteutilitymod.commands.Ping;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
+import me.danny125.byteutilitymod.extension.Extension;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
@@ -46,12 +47,13 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
-    public static String MOD_VERSION = "0.3";
+    public static String MOD_VERSION = "0.4";
 
     public static Initialize INSTANCE = new Initialize();
 
     public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
     public static CopyOnWriteArrayList<Command> commands = new CopyOnWriteArrayList<Command>();
+    public static CopyOnWriteArrayList<Extension> extensions = new CopyOnWriteArrayList<>();
 
     //communicate with the GameRendererMixin for the LSD module
     public static boolean loadPostProcessor = false;
@@ -136,6 +138,15 @@ public class Initialize {
             return false;
         }
         return true;
+    }
+    public static void registerExtension(Extension extension) {
+        extensions.add(extension);
+        if(!extension.modules.isEmpty()){
+            modules.addAll(extension.modules);
+        }
+        if(!extension.commands.isEmpty()){
+            commands.addAll(extension.commands);
+        }
     }
     public static boolean isGuiOpen(){
         if(MinecraftClient.getInstance().player != null){
