@@ -8,6 +8,7 @@ import me.danny125.byteutilitymod.settings.NumberSetting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BowItem;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class BowAimbot extends Module {
 
     public BowAimbot() {
         super("BowAimbot",0,CATEGORY.COMBAT,false);
+        this.addSettings(mobs,players,range);
     }
 
     private float[] calculateLookAt(PlayerEntity player, Entity target) {
@@ -50,7 +52,7 @@ public class BowAimbot extends Module {
             }
 
             double AimbotRange = range.getValue();
-            double maxAngleFromCrosshair = 15.0; // Max angle from crosshair in degrees
+            double maxAngleFromCrosshair = 15.0;
             Entity closestEntity = null;
             double closestDistanceSquared = AimbotRange * AimbotRange;
             double closestAngle = maxAngleFromCrosshair;
@@ -59,20 +61,25 @@ public class BowAimbot extends Module {
 
             if (!nearbyEntities.isEmpty()) {
                 for (Entity entity : nearbyEntities) {
-                    // Check if the entity is valid based on settings
                     if (entity instanceof MobEntity && !mobs.isToggled()) {
                         continue;
                     }
                     if (entity instanceof PlayerEntity && !players.isToggled()) {
                         continue;
                     }
+                    if(!(entity instanceof MobEntity) && !(entity instanceof PlayerEntity)){
+                        continue;
+                    }
+                    if(mc.player.getActiveItem().getItem() instanceof BowItem){
 
-                    // Check if entity is visible (not behind walls)
+                    }else{
+                        return;
+                    }
+
                     if (!player.canSee(entity)) {
                         continue;
                     }
 
-                    // Calculate angle between player view and entity
                     float[] lookAtAngles = calculateLookAt(player, entity);
                     float yawDiff = Math.abs(player.getYaw() - lookAtAngles[0]);
                     float pitchDiff = Math.abs(player.getPitch() - lookAtAngles[1]);
@@ -83,7 +90,6 @@ public class BowAimbot extends Module {
                         closestEntity = entity;
                         closestAngle = angleFromCrosshair;
                     } else {
-                        // Check distance to fallback to closest by distance if no close crosshair match
                         double distanceSquared = player.squaredDistanceTo(entity);
                         if (distanceSquared < closestDistanceSquared) {
                             closestEntity = entity;
@@ -93,9 +99,7 @@ public class BowAimbot extends Module {
                 }
 
                 if (closestEntity != null) {
-                    // Calculate the look-at angles for the closest entity
                     float[] targetLookAt = calculateLookAt(player, closestEntity);
-                    // Apply these angles to the player's rotation to aim at the target
                     player.setYaw(targetLookAt[0]);
                     player.setPitch(targetLookAt[1]);
                 }
