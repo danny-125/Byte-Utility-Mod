@@ -6,14 +6,21 @@ import me.danny125.byteutilitymod.mixin.client.IdentifierAccessor;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.ModeSetting;
 import me.danny125.byteutilitymod.settings.Setting;
+import me.danny125.byteutilitymod.util.TextUtil;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.FontManager;
+import net.minecraft.client.font.FontStorage;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class HUD extends Module{
     public HUD(){
@@ -23,7 +30,7 @@ public class HUD extends Module{
     @Override
     public void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info) {
         super.onRender(drawContext, renderTickCounter, info);
-        if(this.toggled){
+        if(this.toggled && mc.textRenderer != null){
             Identifier imageTexture = IdentifierAccessor.createIdentifier("byte-utility-mod", "textures/gui/logo.png");
             if(Initialize.INSTANCE.getModuleByName("Color").isToggled()){
                 for(Setting s : Initialize.INSTANCE.getModuleByName("Color").settings){
@@ -71,14 +78,12 @@ public class HUD extends Module{
             for(Module m : Initialize.INSTANCE.modules){
                 if(m.isToggled()){
                     String text = m.getName();
-
                     int textWidth = mc.textRenderer.getWidth(text);
                     int textHeight = mc.textRenderer.fontHeight;
                     int screenWidth = drawContext.getScaledWindowWidth();
                     int screenHeight = drawContext.getScaledWindowHeight();
-
                     drawContext.getMatrices().push();
-                    drawContext.drawText(mc.textRenderer, text, x, y+(MODULE_COUNT*textHeight+1)+75, Initialize.getColor().getRGB(), true);
+                    TextUtil.drawShadedString(drawContext,mc.textRenderer, text, x, y+(MODULE_COUNT*textHeight+1)+75, Initialize.getColor().getRGB(), MODULE_COUNT == 0);
                     drawContext.getMatrices().pop();
                     MODULE_COUNT++;
                 }

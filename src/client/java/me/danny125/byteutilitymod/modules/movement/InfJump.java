@@ -11,7 +11,7 @@ public class InfJump extends Module {
     @Override
     public void onEvent(Event e) {
         super.onEvent(e);
-        if(e instanceof TickEvent && this.toggled){
+        if(e instanceof TickEvent && this.toggled && mc.player != null){
             mc.player.setOnGround(true);
         }
     }
