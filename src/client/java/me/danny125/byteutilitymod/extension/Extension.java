@@ -1,6 +1,5 @@
 package me.danny125.byteutilitymod.extension;
 
-import me.danny125.byteutilitymod.Initialize;
 import me.danny125.byteutilitymod.commands.Command;
 import me.danny125.byteutilitymod.modules.Module;
 

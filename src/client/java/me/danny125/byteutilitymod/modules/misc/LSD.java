@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.modules.misc;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.modules.Module;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -20,7 +20,7 @@ public class LSD extends Module {
         if(mc.gameRenderer.getPostProcessor() != null)
             mc.gameRenderer.disablePostProcessor();
 
-        Initialize.INSTANCE.loadPostProcessor = true;
+        BYTE.INSTANCE.loadPostProcessor = true;
     }
 
     @Override

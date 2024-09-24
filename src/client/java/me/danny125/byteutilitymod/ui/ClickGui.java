@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.ui;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.util.MathUtil;
@@ -29,8 +29,8 @@ public class ClickGui extends Screen {
 
     public static ClickGui INSTANCE = new ClickGui();
 
-    public static int screenWidth = Initialize.INSTANCE.screenWidth;
-    public static int screenHeight = Initialize.INSTANCE.screenHeight;
+    public static int screenWidth = BYTE.INSTANCE.screenWidth;
+    public static int screenHeight = BYTE.INSTANCE.screenHeight;
     public static int rectangleWidth = (int)(screenWidth*0.300);
     public static int rectangleHeight = (int)(screenHeight*0.700);
     public static int titleBarHeight = (int)(screenHeight*0.03);
@@ -290,7 +290,7 @@ public class ClickGui extends Screen {
             }
             if(currentScreen.equals(CurrentScreenType.MODULE_LIST)){
                 int MODULE_COUNT = 0;
-                for (Module module : Initialize.INSTANCE.modules) {
+                for (Module module : BYTE.INSTANCE.modules) {
                     if (module.getCategory() == currentCategory) {
                         String text = module.getName();
 
@@ -323,7 +323,7 @@ public class ClickGui extends Screen {
                 }
             }
         }
-        context.fill(guiX, guiY, guiX + rectangleWidth, guiY + titleBarHeight, new Color(Initialize.getColor().getRed(),Initialize.getColor().getGreen(),Initialize.getColor().getBlue(),150).getRGB());
+        context.fill(guiX, guiY, guiX + rectangleWidth, guiY + titleBarHeight, new Color(BYTE.getColor().getRed(), BYTE.getColor().getGreen(), BYTE.getColor().getBlue(),150).getRGB());
         String collapseButtonText = "-";
         int collapseButtonWidth = client.textRenderer.getWidth(collapseButtonText);
         int collapseButtonHeight = client.textRenderer.fontHeight;
@@ -358,7 +358,7 @@ public class ClickGui extends Screen {
             }
             if(currentScreen.equals(CurrentScreenType.MODULE_LIST)){
                 int MODULE_COUNT = 0;
-                for (Module module : Initialize.INSTANCE.modules) {
+                for (Module module : BYTE.INSTANCE.modules) {
                     if (module.getCategory() == currentCategory) {
                         String text = module.getName();
 

@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.modules.player;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.TickEvent;
 import me.danny125.byteutilitymod.modules.Module;
@@ -26,7 +26,7 @@ public class NoFall extends Module{
         super.onEvent(e);
         if(mode.getMode().startsWith("GroundSpoof")){
             if(mc.player != null && this.toggled) {
-                if (mc.player.fallDistance > 2.0F || Initialize.INSTANCE.isModuleToggled("Flight")) {
+                if (mc.player.fallDistance > 2.0F || BYTE.INSTANCE.isModuleToggled("Flight")) {
                     Packet<?> noFallPacket = new PlayerMoveC2SPacket.OnGroundOnly(true);
                     PacketUtil.sendPacket(noFallPacket);
                 }

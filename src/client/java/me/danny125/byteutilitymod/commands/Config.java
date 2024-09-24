@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.commands;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -41,12 +41,12 @@ public class Config extends Command{
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if(args[1].equals("load")){
-                Initialize.loadConfig(selectedFile.getAbsolutePath());
+                BYTE.loadConfig(selectedFile.getAbsolutePath());
                 MinecraftClient.getInstance().player.sendMessage(Text.literal("§5Loaded configuration file!"));
                 GLFW.glfwRestoreWindow(windowHandle);
 
             }else if(args[1].equals("save")){
-                Initialize.saveConfig(selectedFile.getAbsolutePath());
+                BYTE.saveConfig(selectedFile.getAbsolutePath());
                 MinecraftClient.getInstance().player.sendMessage(Text.literal("§5Saved configuration file!"));
                 GLFW.glfwRestoreWindow(windowHandle);
             }else {

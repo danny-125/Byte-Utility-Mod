@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ public class VelocityUpdateS2CPacketMixin {
             if (entity instanceof PlayerEntity && entity.equals(client.player)) {
                 VelocityUpdateS2CPacketAccessor accessor = (VelocityUpdateS2CPacketAccessor) this;
 
-                if(Initialize.INSTANCE.isModuleToggled("AntiKnockback")) {
+                if(BYTE.INSTANCE.isModuleToggled("AntiKnockback")) {
                     accessor.setVelocityX(0);
                     accessor.setVelocityY(0);
                     accessor.setVelocityZ(0);

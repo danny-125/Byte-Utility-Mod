@@ -7,7 +7,7 @@
  */
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.event.EventDirection;
 import me.danny125.byteutilitymod.event.EventType;
 import me.danny125.byteutilitymod.event.RenderEvent;
@@ -52,7 +52,7 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
     {
 
         ViewBobbingEvent viewBobbingEvent = new ViewBobbingEvent(ci,EventType.UNDEFINED,EventDirection.UNDEFINED);
-        Initialize.INSTANCE.onEvent(viewBobbingEvent);
+        BYTE.INSTANCE.onEvent(viewBobbingEvent);
 
         if(viewBobbingEvent.isCancelled()) {
             cancelNextBobView = true;
@@ -102,7 +102,7 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
         MatrixStack matrixStack = new MatrixStack();
         matrixStack.multiplyPositionMatrix(matrix4f2);
         RenderEvent event = new RenderEvent(ci, EventType.UNDEFINED, EventDirection.UNDEFINED, matrixStack, tickDelta);
-        Initialize.INSTANCE.onEvent(event);
+        BYTE.INSTANCE.onEvent(event);
     }
 
     @Inject(at = @At(value = "RETURN", ordinal = 1),

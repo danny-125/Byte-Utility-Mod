@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.EventDirection;
 import me.danny125.byteutilitymod.event.EventType;
@@ -37,7 +37,7 @@ public abstract class ChatMixin extends Screen
 
         // Create and fire the chat output event
         ChatEvent event = new ChatEvent(ci, EventType.PRE, EventDirection.OUTGOING, message);
-        Initialize.INSTANCE.onEvent(event);
+        BYTE.INSTANCE.onEvent(event);
 
         // If the event hasn't been modified or cancelled,
         // let the vanilla method handle the message

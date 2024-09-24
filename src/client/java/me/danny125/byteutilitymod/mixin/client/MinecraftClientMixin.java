@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.event.EventDirection;
 import me.danny125.byteutilitymod.event.EventType;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
@@ -17,6 +17,6 @@ public class MinecraftClientMixin {
 
     @Inject(method = "joinWorld", at = @At("HEAD"))
     private void onJoinWorld(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
-        Initialize.INSTANCE.onEvent(new JoinWorldEvent(ci, EventType.PRE, EventDirection.OUTGOING));
+        BYTE.INSTANCE.onEvent(new JoinWorldEvent(ci, EventType.PRE, EventDirection.OUTGOING));
     }
 }

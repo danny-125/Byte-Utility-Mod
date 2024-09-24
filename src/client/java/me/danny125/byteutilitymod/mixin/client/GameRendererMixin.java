@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.render.GameRenderer;
@@ -27,8 +27,8 @@ public abstract class GameRendererMixin {
     private void onRender(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && isLSDActive()) {
-            if(Initialize.INSTANCE.loadPostProcessor) {
-                Initialize.INSTANCE.loadPostProcessor = false;
+            if(BYTE.INSTANCE.loadPostProcessor) {
+                BYTE.INSTANCE.loadPostProcessor = false;
                 if (this.postProcessor != null) {
                     this.disablePostProcessor();
                 }
@@ -43,6 +43,6 @@ public abstract class GameRendererMixin {
     }
 
     private boolean isLSDActive() {
-        return Initialize.INSTANCE.isModuleToggled("AcidTrip");
+        return BYTE.INSTANCE.isModuleToggled("AcidTrip");
     }
 }

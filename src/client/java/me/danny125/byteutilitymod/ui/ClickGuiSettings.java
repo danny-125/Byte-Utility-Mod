@@ -1,12 +1,12 @@
 package me.danny125.byteutilitymod.ui;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.modules.Module;
 import me.danny125.byteutilitymod.settings.Setting;
 
 public class ClickGuiSettings {
-    public static int screenWidth = Initialize.INSTANCE.screenWidth;
-    public static int screenHeight = Initialize.INSTANCE.screenHeight;
+    public static int screenWidth = BYTE.INSTANCE.screenWidth;
+    public static int screenHeight = BYTE.INSTANCE.screenHeight;
     public static int rectangleWidth = (int)(screenWidth*0.300);
     public static int rectangleHeight = (int)(screenHeight*0.700);
     public static int titleBarHeight = (int)(screenHeight*0.03);

@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.mixin.client;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +12,6 @@ public class GameShutdownMixin {
 
     @Inject(method = "close", at = @At("HEAD"))
     public void onGameClose(CallbackInfo info) {
-        Initialize.INSTANCE.saveConfig("ByteConfig.txt");
+        BYTE.INSTANCE.saveConfig("ByteConfig.txt");
     }
 }

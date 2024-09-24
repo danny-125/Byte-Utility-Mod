@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.modules.hud;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.ui.ClickGui;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -22,9 +22,9 @@ public class ClickGuiModule extends Module {
     @Override
     public void onRender(DrawContext drawContext, RenderTickCounter renderTickCounter, CallbackInfo info) {
         super.onRender(drawContext, renderTickCounter, info);
-        if(Initialize.INSTANCE != null) {
-            Initialize.INSTANCE.screenWidth = drawContext.getScaledWindowWidth();
-            Initialize.INSTANCE.screenHeight = drawContext.getScaledWindowHeight();
+        if(BYTE.INSTANCE != null) {
+            BYTE.INSTANCE.screenWidth = drawContext.getScaledWindowWidth();
+            BYTE.INSTANCE.screenHeight = drawContext.getScaledWindowHeight();
         }
     }
 }

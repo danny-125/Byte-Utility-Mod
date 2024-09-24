@@ -9,6 +9,8 @@ import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
 import me.danny125.byteutilitymod.extension.Extension;
 import me.danny125.byteutilitymod.modules.Module;
+import me.danny125.byteutilitymod.modules.combat.AutoClicker;
+import me.danny125.byteutilitymod.modules.combat.BowAimbot;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
 import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
 import me.danny125.byteutilitymod.modules.hud.HUD;
@@ -30,7 +32,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
@@ -46,10 +47,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Initialize {
-    public static String MOD_VERSION = "0.4.1";
+public class BYTE {
+    public static String MOD_VERSION = "0.4.2";
 
-    public static Initialize INSTANCE = new Initialize();
+    public static BYTE INSTANCE = new BYTE();
 
     public static CopyOnWriteArrayList<Module> modules = new CopyOnWriteArrayList<Module>();
     public static CopyOnWriteArrayList<Command> commands = new CopyOnWriteArrayList<Command>();
@@ -125,6 +126,8 @@ public class Initialize {
             modules.add(new InfJump());
             modules.add(new MobESP());
             modules.add(new Step());
+            modules.add(new AutoClicker());
+            modules.add(new BowAimbot());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list
@@ -167,7 +170,7 @@ public class Initialize {
     public static void saveConfig(String configfile) {
         // save the configuration file
         String config = "";
-        for(Module m: Initialize.modules) {
+        for(Module m: BYTE.modules) {
 
             for(Setting s : m.ListSettings()) {
                 if(s instanceof NumberSetting) {
@@ -215,7 +218,7 @@ public class Initialize {
         File config = new File(configfile);
 
         if (config.exists()) {
-            for (Module m : Initialize.modules) {
+            for (Module m : BYTE.modules) {
 
                 Path path = Paths.get(configfile);
                 List<String> lines = null;

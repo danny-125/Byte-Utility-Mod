@@ -1,6 +1,6 @@
 package me.danny125.byteutilitymod.modules.misc;
 
-import me.danny125.byteutilitymod.Initialize;
+import me.danny125.byteutilitymod.BYTE;
 import me.danny125.byteutilitymod.modules.Module;
 
 public class Panic extends Module {
@@ -11,7 +11,7 @@ public class Panic extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        for(Module module : Initialize.modules){
+        for(Module module : BYTE.modules){
             module.toggled = false;
         }
     }
