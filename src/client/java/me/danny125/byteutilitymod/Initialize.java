@@ -47,7 +47,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Initialize {
-    public static String MOD_VERSION = "0.4";
+    public static String MOD_VERSION = "0.4.1";
 
     public static Initialize INSTANCE = new Initialize();
 
