@@ -1,11 +1,7 @@
-# danny-125
-
-<div align="center">
-
 </div>
 
 <h1 align="center">
-	Byte Utility Mod
+	Byte Utility Mod by Danny-125
 </h1>
 
 <p align="center">
@@ -18,8 +14,37 @@
   <img src="https://img.shields.io/github/commit-activity/m/danny-125/Byte-Utility-Mod">
   <img src="https://img.shields.io/github/languages/code-size/danny-125/Byte-Utility-Mod">
   <img src="https://img.shields.io/github/downloads/danny-125/Byte-Utility-Mod/total">
+</div>
+
+# Features
+Byte Ultility Mod offers a variety of very well coded modules and even an [Extension-Template](https://github.com/danny-125/Byte-Extension-Template)
 
 
+### Currently available modules:
+- `Combat`
+	- `AutoClicker`
+	- `BowAimbot`
+	- `KillAura`
+- `Movement`
+	- `AutoSprint`
+ 	- `Flight`
+  	- `InvJump`
+  	- `Step`
+- `Player`
+	- `Eagle`
+	- `NoFall`
+	- `Velocity`
+- `Render`
+	- `ESP`
+ 	- `Fullbright`
+  	- `MobESP`
+- `Misc`
+	- `LSD`
+	- `Panic`
+ 
+### Showcase
+<div align="center">
+Availible soon
 </div>
 
 # Discord
@@ -28,7 +53,7 @@ https://discord.gg/BnrUMQKuHF
 
 ### Usage:
 - Install Fabric 1.21.1 (the latest version)
-- Navigate to "%appdata%/.minecraft/Mods" and place the jar file in there and make sure to also have fabric api in your mods folder.
+- Navigate to "%appdata%/.minecraft/Mods" on Linux to ".minecraft/mods" on MacOS to "~/Library/Application Support/minecraft" and place the jar file in there and make sure to also have fabric api in your mods folder.
 - Piss off server owners!
 
 ### Story:
