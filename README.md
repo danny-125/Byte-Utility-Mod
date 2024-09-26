@@ -1,15 +1,13 @@
-# danny-125
-
 <div align="center">
 
 </div>
 
 <h1 align="center">
-	Byte Utility Mod
+	Byte Utility Mod by danny-125
 </h1>
 
 <p align="center">
-	1.21.1 Fabric Mod for Minecraft
+	1.21.1 Fabric Utility Mod with well-coded modules
 </p>
 
 <div align="center">
@@ -18,18 +16,48 @@
   <img src="https://img.shields.io/github/commit-activity/m/danny-125/Byte-Utility-Mod">
   <img src="https://img.shields.io/github/languages/code-size/danny-125/Byte-Utility-Mod">
   <img src="https://img.shields.io/github/downloads/danny-125/Byte-Utility-Mod/total">
-
-
 </div>
+
+# Showcase
+
+Not availible yet :(
+
+# Features
+
+- `Combat`
+	- `AutoClicker`
+	- `BowAimbot`
+	- `KillAura`
+
+ - `Movement`
+	- `AutoSprint`
+	- `Flight`
+	- `InfJump`
+	- `Step`
+
+ - `Player`
+	- `Eagle`
+	- `NoFall`
+ 	- `Velocity`
+
+ - `Render`
+ 	- `ESP`
+	- `Fullbright`
+	- `MobESP`
+ 
+ - `Misc`
+	- `LSD`
+	- `Panic`
+
+
+# Usage:
+- Install Fabric 1.21.1 (the latest version)
+- Navigate to "%appdata%/.minecraft/Mods" and place the jar file in there and make sure to also have fabric api in your mods folder.
+- Piss off server owners and have fun!
 
 # Discord
 Join our discord:
 https://discord.gg/BnrUMQKuHF
-
-### Usage:
-- Install Fabric 1.21.1 (the latest version)
-- Navigate to "%appdata%/.minecraft/Mods" and place the jar file in there and make sure to also have fabric api in your mods folder.
-- Piss off server owners!
 
 ### Story:
 At the young age of 13, I created Peroxide, a hacked client for Minecraft 1.8.
