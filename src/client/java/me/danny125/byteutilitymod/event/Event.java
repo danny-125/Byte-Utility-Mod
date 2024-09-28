@@ -8,11 +8,18 @@ public class Event {
     public EventDirection eventDirection;
     public CallbackInfo ci;
 
-    public Event(CallbackInfo ci, EventType eventType, EventDirection eventDirection) {
-        this.ci = ci;
-        this.eventType = eventType;
-        this.eventDirection = eventDirection;
+    public Event() {
         this.cancelled = false;
+    }
+
+    public void setCi(CallbackInfo ci) {
+        this.ci = ci;
+    }
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+    public void setEventDirection(EventDirection eventDirection) {
+        this.eventDirection = eventDirection;
     }
 
     public boolean isCancelled(){
@@ -24,10 +31,10 @@ public class Event {
     public EventDirection getEventDirection(){
         return this.eventDirection;
     }
-    public void cancel(boolean cancelci){
-        if(ci.isCancellable() && cancelci) {
-            this.ci.cancel();
-        }
+    public CallbackInfo getCi(){
+        return this.ci;
+    }
+    public void cancel(){
         this.cancelled = true;
     }
 }

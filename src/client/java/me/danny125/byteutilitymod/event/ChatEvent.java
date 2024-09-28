@@ -4,8 +4,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class ChatEvent extends Event{
     public String message;
-    public ChatEvent(CallbackInfo callbackInfo, EventType eventType,EventDirection eventDirection,String msg) {
-        super(callbackInfo,eventType,eventDirection);
+    public ChatEvent(String msg) {
+        super();
         this.message = msg;
     }
     public String getMessage() {

@@ -14,6 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class TickMixin {
     @Inject(at = @At("HEAD"), method = "tick", cancellable = true)
     private void tick(CallbackInfo info) {
-        BYTE.INSTANCE.onEvent(new TickEvent(info, EventType.PRE, EventDirection.INCOMING));}
-    private void tickPost(CallbackInfo info) { BYTE.INSTANCE.onEvent(new TickEvent(info, EventType.POST, EventDirection.INCOMING)); }
+        TickEvent tickEvent = new TickEvent();
+        tickEvent.ci = info;
+        tickEvent.eventDirection = EventDirection.OUTGOING;
+        tickEvent.eventType = EventType.PRE;
+        BYTE.INSTANCE.onEvent(tickEvent);
+    }
+    private void tickPost(CallbackInfo info) {
+        TickEvent tickEvent = new TickEvent();
+        tickEvent.ci = info;
+        tickEvent.eventDirection = EventDirection.OUTGOING;
+        tickEvent.eventType = EventType.POST;
+        BYTE.INSTANCE.onEvent(tickEvent);
+    }
 }

@@ -51,7 +51,7 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
                                           CallbackInfo ci)
     {
 
-        ViewBobbingEvent viewBobbingEvent = new ViewBobbingEvent(ci,EventType.UNDEFINED,EventDirection.UNDEFINED);
+        ViewBobbingEvent viewBobbingEvent = new ViewBobbingEvent();
         BYTE.INSTANCE.onEvent(viewBobbingEvent);
 
         if(viewBobbingEvent.isCancelled()) {
@@ -101,7 +101,7 @@ public abstract class GameRendererMixinWurst implements AutoCloseable
     {
         MatrixStack matrixStack = new MatrixStack();
         matrixStack.multiplyPositionMatrix(matrix4f2);
-        RenderEvent event = new RenderEvent(ci, EventType.UNDEFINED, EventDirection.UNDEFINED, matrixStack, tickDelta);
+        RenderEvent event = new RenderEvent(matrixStack, tickDelta);
         BYTE.INSTANCE.onEvent(event);
     }
 

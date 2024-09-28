@@ -31,30 +31,21 @@ public abstract class ChatMixin extends Screen
     public void onSendMessage(String message, boolean addToHistory,
                               CallbackInfo ci)
     {
-        // Ignore empty messages just like vanilla
         if((message = normalize(message)).isEmpty())
             return;
 
-        // Create and fire the chat output event
-        ChatEvent event = new ChatEvent(ci, EventType.PRE, EventDirection.OUTGOING, message);
+        ChatEvent event = new ChatEvent(message);
+        event.setCi(ci);
         BYTE.INSTANCE.onEvent(event);
 
-        // If the event hasn't been modified or cancelled,
-        // let the vanilla method handle the message
         boolean cancelled = event.isCancelled();
         if(!cancelled)
             return;
 
-        // Otherwise, cancel the vanilla method and handle the message here
-        ci.cancel();
-
-        // Add the message to history, even if it was cancelled
-        // Otherwise the up/down arrows won't work correctly
         String newMessage = event.getMessage();
         if(addToHistory)
             client.inGameHud.getChatHud().addToMessageHistory(newMessage);
 
-        // If the event isn't cancelled, send the modified message
         if(!cancelled)
             if(newMessage.startsWith("/"))
                 client.player.networkHandler

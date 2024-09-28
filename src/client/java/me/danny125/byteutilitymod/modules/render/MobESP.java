@@ -147,7 +147,7 @@ public class MobESP extends Module {
 
         if(e instanceof ViewBobbingEvent){
             if(tracers.isToggled()){
-                e.cancel(false);
+                e.cancel();
             }
         }
 

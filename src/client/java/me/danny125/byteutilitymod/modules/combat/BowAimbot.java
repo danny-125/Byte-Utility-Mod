@@ -37,6 +37,13 @@ public class BowAimbot extends Module {
         return new float[]{yaw, pitch};
     }
 
+    private float normalizeYawDifference(float yaw1, float yaw2) {
+        float diff = yaw1 - yaw2;
+        while (diff > 180.0F) diff -= 360.0F;
+        while (diff < -180.0F) diff += 360.0F;
+        return diff;
+    }
+
     @Override
     public void onEvent(Event e) {
         super.onEvent(e);
@@ -81,7 +88,7 @@ public class BowAimbot extends Module {
                     }
 
                     float[] lookAtAngles = calculateLookAt(player, entity);
-                    float yawDiff = Math.abs(player.getYaw() - lookAtAngles[0]);
+                    float yawDiff = Math.abs(normalizeYawDifference(player.getYaw(), lookAtAngles[0]));
                     float pitchDiff = Math.abs(player.getPitch() - lookAtAngles[1]);
 
                     double angleFromCrosshair = Math.sqrt(yawDiff * yawDiff + pitchDiff * pitchDiff);

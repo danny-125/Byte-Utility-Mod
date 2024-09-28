@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RenderEvent extends Event {
     public MatrixStack matrixStack;
     public float tickDelta;
-    public RenderEvent(CallbackInfo info, EventType type, EventDirection direction, MatrixStack matrixStack,float tickDelta) {
-        super(info, type, direction);
+    public RenderEvent(MatrixStack matrixStack,float tickDelta) {
+        super();
         this.matrixStack = matrixStack;
         this.tickDelta = tickDelta;
     }
