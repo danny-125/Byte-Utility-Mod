@@ -28,6 +28,7 @@ import me.danny125.byteutilitymod.modules.render.Fullbright;
 import me.danny125.byteutilitymod.modules.render.MobESP;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
+import me.danny125.byteutilitymod.util.PacketUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -48,7 +49,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BYTE {
-    public static String MOD_VERSION = "0.4.2";
+    public static String MOD_VERSION = "0.4.3.1";
 
     public static BYTE INSTANCE = new BYTE();
 
@@ -136,6 +137,13 @@ public class BYTE {
             commands.add(new Ping());
             //Add config stuff here
             loadConfig("ByteConfig.txt");
+            for(Module m : modules){
+                if(m.getName().equals("PacketCanceller")){
+                    if(m.isToggled()){
+                        m.toggle();
+                    }
+                }
+            }
         }catch (Exception e){
             ByteUtilityMod.LOGGER.error("Error whilst initializing: " + e.getMessage());
             return false;
@@ -352,7 +360,8 @@ public class BYTE {
 
             for(Command command : commands){
                 if(message.startsWith("#")){
-                    e.cancel(true);
+                    e.cancel();
+                    e.getCi().cancel();
                     String[] args = message.split(" ");
                     if(args[0].equals("#" + command.getCommand())){
                         command.runCommand(message);

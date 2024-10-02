@@ -11,11 +11,11 @@
 		"IdentifierAccessor",
 		"GameRendererMixin",
 		"GameShutdownMixin",
-		"VelocityUpdateS2CPacketMixin",
-		"VelocityUpdateS2CPacketAccessor",
 		"GameRendererMixinWurst",
 		"ChatMixin",
-		"MinecraftClientMixin"
+		"MinecraftClientMixin",
+		"ClientConnectionMixin",
+		"ClientPlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

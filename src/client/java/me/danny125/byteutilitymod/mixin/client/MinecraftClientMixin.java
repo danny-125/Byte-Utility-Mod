@@ -17,6 +17,6 @@ public class MinecraftClientMixin {
 
     @Inject(method = "joinWorld", at = @At("HEAD"))
     private void onJoinWorld(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
-        BYTE.INSTANCE.onEvent(new JoinWorldEvent(ci, EventType.PRE, EventDirection.OUTGOING));
+        BYTE.INSTANCE.onEvent(new JoinWorldEvent());
     }
 }
