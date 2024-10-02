@@ -158,8 +158,8 @@ public class KillAura extends Module {
                         float originalPitch = mc.player.getPitch();
                         facing = calculateLookAt(mc.player, entity);
                         mc.player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, entity.getPos());
-                        mc.player.swingHand(Hand.MAIN_HAND);
                         mc.interactionManager.attackEntity(mc.player,entity);
+                        mc.player.swingHand(Hand.MAIN_HAND);
                         mc.player.setYaw(originalYaw);
                         mc.player.setPitch(originalPitch);
                     }

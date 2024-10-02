@@ -1,14 +1,12 @@
 package me.danny125.byteutilitymod;
 
-import me.danny125.byteutilitymod.commands.Command;
-import me.danny125.byteutilitymod.commands.Config;
-import me.danny125.byteutilitymod.commands.Help;
-import me.danny125.byteutilitymod.commands.Ping;
+import me.danny125.byteutilitymod.commands.*;
 import me.danny125.byteutilitymod.event.ChatEvent;
 import me.danny125.byteutilitymod.event.Event;
 import me.danny125.byteutilitymod.event.JoinWorldEvent;
 import me.danny125.byteutilitymod.extension.Extension;
 import me.danny125.byteutilitymod.modules.Module;
+import me.danny125.byteutilitymod.modules.combat.AntiBots;
 import me.danny125.byteutilitymod.modules.combat.AutoClicker;
 import me.danny125.byteutilitymod.modules.combat.BowAimbot;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
@@ -49,7 +47,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BYTE {
-    public static String MOD_VERSION = "0.4.3.1";
+    public static String MOD_VERSION = "0.5";
 
     public static BYTE INSTANCE = new BYTE();
 
@@ -129,6 +127,7 @@ public class BYTE {
             modules.add(new Step());
             modules.add(new AutoClicker());
             modules.add(new BowAimbot());
+            modules.add(new AntiBots());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list
