@@ -22,6 +22,22 @@ public class Module {
     public KeyBindSetting keyCode = new KeyBindSetting(0);
     public MinecraftClient mc;
 
+    //used for sliding
+    public double x;
+    public double y;
+
+    public double posX;
+    public double posY;
+
+    public String prefix;
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
     public enum CATEGORY{
         RENDER,
         MOVEMENT,

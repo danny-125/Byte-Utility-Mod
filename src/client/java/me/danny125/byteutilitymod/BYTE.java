@@ -10,8 +10,7 @@ import me.danny125.byteutilitymod.modules.combat.AntiBots;
 import me.danny125.byteutilitymod.modules.combat.AutoClicker;
 import me.danny125.byteutilitymod.modules.combat.BowAimbot;
 import me.danny125.byteutilitymod.modules.combat.KillAura;
-import me.danny125.byteutilitymod.modules.hud.ClickGuiModule;
-import me.danny125.byteutilitymod.modules.hud.HUD;
+import me.danny125.byteutilitymod.modules.hud.*;
 import me.danny125.byteutilitymod.modules.misc.LSD;
 import me.danny125.byteutilitymod.modules.misc.Panic;
 import me.danny125.byteutilitymod.modules.movement.AutoSprint;
@@ -26,14 +25,13 @@ import me.danny125.byteutilitymod.modules.render.Fullbright;
 import me.danny125.byteutilitymod.modules.render.MobESP;
 import me.danny125.byteutilitymod.settings.*;
 import me.danny125.byteutilitymod.ui.ClickGui;
-import me.danny125.byteutilitymod.util.PacketUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,7 +45,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BYTE {
-    public static String MOD_VERSION = "0.5";
+    public static String MOD_VERSION = "0.5.1";
 
     public static BYTE INSTANCE = new BYTE();
 
@@ -67,40 +65,14 @@ public class BYTE {
 
     public static String newline = System.getProperty("line.separator");
 
-    public static Color getColor() {
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        for(Module m: modules) {
-            if(m.getName() == "Color") {
-                if(m.toggled) {
-                    for(Setting s: m.ListSettings()) {
-                        if(s instanceof ModeSetting) {
-                            ModeSetting setting = (ModeSetting) s;
-                            if(Objects.equals(setting.getMode(), "Red")) {
-                                return new Color(200,0,0);
-                            }
-                            if(Objects.equals(((ModeSetting) s).getMode(), "Damieon")) {
-                                return new Color(0,255,0);
-                            }
-                            if(Objects.equals(((ModeSetting) s).getMode(), "Blue")) {
-                                return new Color(0,0,255);
-                            }
-                            if(Objects.equals(((ModeSetting) s).getMode(), "DamieonPurple")){
-                                return new Color(150,0,250);
-                            }
-                        }
-
-                    }
-                }else {
-                    return new Color(255,0,0);
-                }
+    public static Color getColor(){
+        for(Module m : modules){
+            if(Objects.equals(m.getName(), "Color") && m.toggled){
+                return new Color((int)((NumberSetting)m.getSettingByName("Red")).getValue(),(int)((NumberSetting)m.getSettingByName("Green")).getValue(),(int)((NumberSetting)m.getSettingByName("Blue")).getValue());
             }
         }
-        return new Color(255,0,0);
+        return new Color(17,119,229);
     }
-
-
 
     // very sigma function that initializes the utility mod :)
     public static boolean InitializeMod(){
@@ -110,7 +82,6 @@ public class BYTE {
             //add modules to module list
             //modules.add(new ExampleModule());
             modules.add(new Fullbright());
-            modules.add(new HUD());
             modules.add(new Flight());
             modules.add(new NoFall());
             modules.add(new KillAura());
@@ -119,7 +90,6 @@ public class BYTE {
             modules.add(new Eagle());
             modules.add(new Velocity());
             modules.add(new ESP());
-            modules.add(new me.danny125.byteutilitymod.modules.hud.Color());
             modules.add(new Panic());
             modules.add(new AutoSprint());
             modules.add(new InfJump());
@@ -128,6 +98,10 @@ public class BYTE {
             modules.add(new AutoClicker());
             modules.add(new BowAimbot());
             modules.add(new AntiBots());
+            modules.add(new DisableEffectHud());
+            modules.add(new ArrayList());
+            modules.add(new me.danny125.byteutilitymod.modules.hud.Color());
+            modules.add(new Name());
             //Enable modules that have ENABLE_ON_START set to true
             enableStartupModules();
             //add commands to command list
@@ -313,6 +287,9 @@ public class BYTE {
         }
     }
     public static void keyPress(int key){
+        if(MinecraftClient.getInstance().world == null){
+            return;
+        }
         for(Module module : modules){
             int MODULE_KEY = module.getKey();
             if(key == MODULE_KEY && !isGuiOpen()){
